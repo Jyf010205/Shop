@@ -25,6 +25,7 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://121.5.40.72:3306/shop?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
       p6spy: true
+
 mybatis-plus:
   type-aliases-package: com.shuaibi.shop.common.entity.table
   mapper-locations: classpath:mapper/*.xml
@@ -32,3 +33,11 @@ mybatis-plus:
     jdbc-type-for-null: null
   global-config:
     banner: false
+
+# 自定义jwt key
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret:  shuaiBi #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: Bearer  #JWT负载中拿到开头
+
