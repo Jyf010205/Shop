@@ -1,5 +1,6 @@
-package com.shuaibi.shop.common.entity.utils;
+package com.shuaibi.shop.common.utils;
 
+import cn.hutool.core.date.DateTime;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -47,7 +48,7 @@ public class JwtTokenUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
-            log.info("JWT格式验证失败:{}",token);
+            log.error("JWT格式验证失败:{}",token);
         }
         return claims;
     }
@@ -89,7 +90,7 @@ public class JwtTokenUtil {
      */
     private boolean isTokenExpired(String token) {
         Date expiredDate = getExpiredDateFromToken(token);
-        return expiredDate.before(new Date());
+        return expiredDate.before(new DateTime());
     }
 
     /**
@@ -106,7 +107,7 @@ public class JwtTokenUtil {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        claims.put(CLAIM_KEY_CREATED, new Date());
+        claims.put(CLAIM_KEY_CREATED, new DateTime());
         return generateToken(claims);
     }
 
@@ -122,7 +123,7 @@ public class JwtTokenUtil {
      */
     public String refreshToken(String token) {
         Claims claims = getClaimsFromToken(token);
-        claims.put(CLAIM_KEY_CREATED, new Date());
+        claims.put(CLAIM_KEY_CREATED, new DateTime());
         return generateToken(claims);
     }
 }

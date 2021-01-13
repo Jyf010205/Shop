@@ -42,7 +42,7 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("SwaggerUI演示")
-                .description("mall-tiny")
+                .description("帅逼商城")
                 .contact("macro")
                 .version("1.0")
                 .build();

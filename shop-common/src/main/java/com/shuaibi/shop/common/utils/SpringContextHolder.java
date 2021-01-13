@@ -1,4 +1,4 @@
-package com.shuaibi.shop.common.entity.utils;
+package com.shuaibi.shop.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * @author: jianyufeng
  * @date: 2020/9/4 14:41
- * @description:
+ * @description: Spring上下文
  */
 @Slf4j
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
@@ -69,7 +69,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
         if (SpringContextHolder.applicationContext != null) {
             log.warn("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:" + SpringContextHolder.applicationContext);
         }
-        this.applicationContext = applicationContext;
+        SpringContextHolder.applicationContext = applicationContext;
     }
 }
 

@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author: jianyufeng
  * @date: 2021/1/13 15:38
- * @description:
+ * @description: 通用返回对象
  */
 @Data
 public class CommonResult<T> {

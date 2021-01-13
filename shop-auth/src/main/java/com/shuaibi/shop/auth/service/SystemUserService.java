@@ -4,6 +4,7 @@ import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: jianyufeng
@@ -19,7 +20,7 @@ public interface SystemUserService {
     /**
      * 注册功能
      */
-    User register(User userParam);
+    Optional<User> register(User userParam);
 
     /**
      * 登录功能
@@ -27,10 +28,16 @@ public interface SystemUserService {
      * @param password 密码
      * @return 生成的JWT的token
      */
-    String login(String username, String password);
+    Optional<String> login(String username, String password);
 
     /**
      * 获取用户所有权限（包括角色权限和+-权限）
      */
     List<Permission> getPermissionList(Long userId);
+
+    /**
+     * 异步记录登录时间
+     * @param username
+     */
+    void updateLoginTime(String username);
 }

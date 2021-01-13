@@ -1,17 +1,19 @@
 package com.shuaibi.shop.auth;
 
-import com.shuaibi.shop.common.entity.utils.SpringContextHolder;
+import com.shuaibi.shop.common.utils.SpringContextHolder;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author: jianyufeng
  * @date: 2021/1/8 15:50
  * @description:
  */
+@EnableAsync
 @EnableDiscoveryClient
 @SpringBootApplication
 @MapperScan("com.shuaibi.shop.auth.mapper")

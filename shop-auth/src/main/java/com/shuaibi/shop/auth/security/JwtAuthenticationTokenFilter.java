@@ -1,6 +1,6 @@
 package com.shuaibi.shop.auth.security;
 
-import com.shuaibi.shop.common.entity.utils.JwtTokenUtil;
+import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

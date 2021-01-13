@@ -7,7 +7,8 @@ import com.shuaibi.shop.auth.security.RestfulAccessDeniedHandler;
 import com.shuaibi.shop.auth.service.SystemUserService;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
-import com.shuaibi.shop.common.entity.utils.JwtTokenUtil;
+import com.shuaibi.shop.common.utils.Asserts;
+import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -99,6 +100,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return username -> {
             User user = systemUserService.getAdminByUsername(username);
             if (user != null) {
+                if (user.getStatus().equals(User.STATUS_LOCK)){
+                    Asserts.fail("用户已被锁定，请联系管理员");
+                }
                 List<Permission> permissionList = systemUserService.getPermissionList(user.getId());
                 return new SystemUserDetails(user,permissionList);
             }

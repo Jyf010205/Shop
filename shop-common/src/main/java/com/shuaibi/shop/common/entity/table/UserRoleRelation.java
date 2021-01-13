@@ -7,6 +7,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author: jianyufeng
+ * @date: 2021/1/13 15:38
+ * @description: 用户和角色关系表
+ */
 @Data
 @TableName("t_user_permission_relation")
 public class UserRoleRelation implements Serializable {

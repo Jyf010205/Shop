@@ -1,15 +1,21 @@
 package com.shuaibi.shop.common.entity.table;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
-
+/**
+ * @author: jianyufeng
+ * @date: 2021/1/13 15:38
+ * @description: 权限表
+ */
 @Data
 @TableName("t_permission")
 public class Permission implements Serializable {
@@ -38,6 +44,7 @@ public class Permission implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "排序")
