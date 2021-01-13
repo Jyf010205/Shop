@@ -8,8 +8,8 @@ import org.springframework.context.ApplicationContextAware;
 
 /**
  * @author: jianyufeng
- * @description:
  * @date: 2020/9/4 14:41
+ * @description:
  */
 @Slf4j
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {

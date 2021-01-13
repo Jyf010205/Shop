@@ -1,10 +1,13 @@
 package com.shuaibi.shop.common.entity.result;
 
+import lombok.Data;
+
 /**
  * @author: jianyufeng
  * @date: 2021/1/13 15:38
  * @description:
  */
+@Data
 public class CommonResult<T> {
     private long code;
     private String message;
