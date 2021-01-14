@@ -1,5 +1,6 @@
 package com.shuaibi.shop.auth;
 
+import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import com.shuaibi.shop.common.utils.SpringContextHolder;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -29,5 +30,14 @@ public class ShopAuthApplication {
     @Bean
     public SpringContextHolder springContextHolder() {
         return new SpringContextHolder();
+    }
+
+    /**
+     * 分布式雪花算法工具注入
+     * @return
+     */
+    @Bean
+    public SnowflakeIdWorker snowflakeIdWorker(){
+        return new SnowflakeIdWorker(1,1);
     }
 }

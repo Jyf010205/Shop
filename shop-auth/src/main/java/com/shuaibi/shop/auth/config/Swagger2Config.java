@@ -32,7 +32,7 @@ public class Swagger2Config {
                 .select()
                 //为当前包下controller生成API文档
                 .apis(RequestHandlerSelectors.basePackage("com.shuaibi.shop.auth.controller"))
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.regex("^(?!auth).*$"))
                 .build()
                 //添加登录认证
                 .securitySchemes(securitySchemes())
@@ -59,15 +59,11 @@ public class Swagger2Config {
     private List<SecurityContext> securityContexts() {
         //设置需要登录认证的路径
         List<SecurityContext> result = new ArrayList<>();
-        result.add(getContextByPath("/brand/.*"));
-        return result;
-    }
-
-    private SecurityContext getContextByPath(String pathRegex){
-        return SecurityContext.builder()
+        result.add(SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex(pathRegex))
-                .build();
+                .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                .build());
+        return result;
     }
 
     private List<SecurityReference> defaultAuth() {

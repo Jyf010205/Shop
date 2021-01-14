@@ -10,6 +10,7 @@ import com.shuaibi.shop.auth.service.SystemUserService;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
 import com.shuaibi.shop.common.utils.JwtTokenUtil;
+import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+    private SnowflakeIdWorker snowflakeIdWorker;
+    @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
     private UserRoleRelationMapper userRoleRelationMapper;
@@ -63,6 +66,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     public Optional<User> register(User userParam) {
         User user = new User();
         BeanUtils.copyProperties(userParam, user);
+        user.setUserId(snowflakeIdWorker.nextId());
         user.setCreateTime(new DateTime());
         user.setStatus(User.STATUS_VALID);
         //查询是否有相同用户名的用户
