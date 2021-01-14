@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  *  Mapper 接口
  * </p>
  *
- * @author psy
+ * @author syq
  * @since 2021-01-14
  */
 public interface GGoodsMapper extends BaseMapper<GGoods> {

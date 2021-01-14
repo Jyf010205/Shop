@@ -1,4 +1,4 @@
-package com.shuaibi.shop.common.entity.mybatis;
+package com.shuaibi.shop.common.utils.mybatis;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -62,7 +62,8 @@ public class MybatisPlusCodeUtil {
         System.out.println("项目的目录为：" + projectPath);
         /*************************生成时修改目标路径***********************************/
         gc.setOutputDir(projectPath + "/shop-goods/src/main/java");
-        gc.setAuthor("psy");
+        /*************************创建人***********************************/
+        gc.setAuthor("syq");
         gc.setOpen(false);
         gc.setSwagger2(true);
         mpg.setGlobalConfig(gc);
@@ -83,6 +84,9 @@ public class MybatisPlusCodeUtil {
         pc.setParent("com.shuaibi.shop.goods");
         mpg.setPackageInfo(pc);
 
+
+
+        /****************************一下不需要手动修改***********************************/
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -92,7 +96,8 @@ public class MybatisPlusCodeUtil {
         };
 
         // 如果模板引擎是 freemarker
-        String templatePath = "/templates/mapper.xml.ftl";
+        String templatePath = "/templates/mapper.java.ftl";
+        String entityPath = "/templates/entity.java.ftl";
         // 如果模板引擎是 velocity
         // String templatePath = "/templates/mapper.xml.vm";
 
@@ -102,9 +107,14 @@ public class MybatisPlusCodeUtil {
         focList.add(new FileOutConfig(templatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                /*************************修改mapper.xml文件位置(前面的"/"补可丢失)***********************************/
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/shop-goods/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return projectPath + "/shop-common/src/main/java/com/shuaibi/shop/common/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_JAVA;
+            }
+        });
+        focList.add(new FileOutConfig(entityPath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/shop-common/src/main/java/com/shuaibi/shop/common/entity/table/" + tableInfo.getEntityName() + StringPool.DOT_JAVA;
             }
         });
         /*
@@ -130,6 +140,8 @@ public class MybatisPlusCodeUtil {
         // templateConfig.setController();
 
         templateConfig.setXml(null);
+        templateConfig.setEntity(null);
+        templateConfig.setMapper(null);
         mpg.setTemplate(templateConfig);
 
         // 策略配置

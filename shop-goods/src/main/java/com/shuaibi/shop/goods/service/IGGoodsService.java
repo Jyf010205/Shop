@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
- * @author psy
+ * @author syq
  * @since 2021-01-14
  */
 public interface IGGoodsService extends IService<GGoods> {
