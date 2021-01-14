@@ -46,13 +46,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf()// 由于使用的是JWT，我们这里不需要csrf
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf()// 由于使用的是JWT，不需要csrf
                 .disable()
                 .sessionManagement()// 基于token，所以不需要session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .headers()
+                .cacheControl().disable()// 禁用缓存
+                .and()
                 .authorizeRequests()
+                /**
+                 * 对于一次请求:
+                 * 这些URL无关过滤器，过滤器每个都会执行
+                 * 授权访问：在一个filter中，会从认证上下文中获取authentication确保认证通过
+                 * 无授权访问：则反之，即不会从上下文获取authentication
+                 */
                 .antMatchers( // 允许对于网站静态资源的无授权访问
                         "/",
                         "/*.html",
@@ -62,24 +71,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js",
                         "/swagger-resources/**",
                         "/v2/api-docs/**"
-                )
-                .permitAll()
-                .antMatchers("/admin/login", "/admin/register")// 对登录注册要允许匿名访问
-                .permitAll()
-                .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
-                .permitAll()
-//                .antMatchers("/**")//测试时全部运行访问
-//                .permitAll()
+                ).permitAll()
+                .antMatchers("/admin/login", "/admin/register").permitAll()// 对登录注册要允许匿名访问
+                .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
                 .anyRequest()// 除上面外的所有请求全部需要鉴权认证
-                .authenticated();
-        // 禁用缓存
-        httpSecurity.headers().cacheControl();
-        // 添加JWT filter
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        //添加自定义未授权和未登录结果返回
-        httpSecurity.exceptionHandling()
+                .authenticated()
+                //添加自定义未授权和未登录结果返回
+                .and()
+                .exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint);
+                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .and()
+                // 添加JWT filter
+                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
