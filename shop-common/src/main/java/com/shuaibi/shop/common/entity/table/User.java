@@ -29,6 +29,9 @@ public class User implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    @ApiModelProperty(value = "用户ID")
+    private Long userId;
+
     @NotBlank(message = "用户名不能为空")
     private String username;
 

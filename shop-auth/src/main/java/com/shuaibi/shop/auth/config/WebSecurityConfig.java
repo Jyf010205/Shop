@@ -103,7 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 if (user.getStatus().equals(User.STATUS_LOCK)){
                     Asserts.fail("用户已被锁定，请联系管理员");
                 }
-                List<Permission> permissionList = systemUserService.getPermissionList(user.getId());
+                List<Permission> permissionList = systemUserService.getPermissionList(user.getUserId());
                 return new SystemUserDetails(user,permissionList);
             }
             throw new UsernameNotFoundException("用户名或密码错误");
