@@ -1,4 +1,4 @@
-package com.shuaibi.shop.auth.config;
+package com.shuaibi.shop.common.config;
 
 import cn.hutool.core.date.DateTime;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
