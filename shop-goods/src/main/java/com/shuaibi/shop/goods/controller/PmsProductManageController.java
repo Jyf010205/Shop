@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author syq
- * @since 2021-01-14
+ * @since 2021-01-15
  */
 @RestController
-@RequestMapping("/g-goods")
-public class GGoodsController {
+@RequestMapping("/pms-product-manage")
+public class PmsProductManageController {
 
 }

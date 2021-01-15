@@ -80,13 +80,18 @@ public class MybatisPlusCodeUtil {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("模块名"));
+        pc.setParent("com.shuaibi.shop");
+        pc.setEntity("common.entity.table");
+        pc.setMapper("common.mapper");
         /*************************生成时修改模块包路径***********************************/
-        pc.setParent("com.shuaibi.shop.goods");
+        pc.setController("goods.controller");
+        pc.setServiceImpl("goods.service.impl");
+        pc.setService("goods.service");
         mpg.setPackageInfo(pc);
 
 
 
-        /****************************一下不需要手动修改***********************************/
+        /****************************以下不需要手动修改***********************************/
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override

@@ -2,3 +2,7 @@
 ShuaiBiShop.iml
 /shop-common/target/
 /shop-goods/target/
+/shop-auth/target/classes/
+/shop-auth/shop-auth.iml
+/shop-common/shop-common.iml
+/shop-goods/shop-goods.iml

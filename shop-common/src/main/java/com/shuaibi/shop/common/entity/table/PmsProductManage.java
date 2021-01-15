@@ -1,4 +1,4 @@
-package com.shuaibi.shop.goods.entity;
+package com.shuaibi.shop.common.entity.table;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,13 +18,13 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author syq
- * @since 2021-01-14
+ * @since 2021-01-15
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="GGoods对象", description="")
-public class GGoods implements Serializable {
+@ApiModel(value="PmsProductManage对象", description="")
+public class PmsProductManage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,24 +33,24 @@ public class GGoods implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "商品编号（规则：年份+商铺编号+5位流水号）")
-    @TableField("GOODS_ID")
-    private String goodsId;
+    @TableField("PRODUCT_ID")
+    private String productId;
 
     @ApiModelProperty(value = "商品名称")
-    @TableField("GOODS_NAME")
-    private String goodsName;
+    @TableField("PRODUCT_NAME")
+    private String productName;
 
     @ApiModelProperty(value = "商品类型")
-    @TableField("GOODS_TYPE")
-    private String goodsType;
+    @TableField("PRODUCT_TYPE")
+    private String productType;
 
     @ApiModelProperty(value = "商品单价")
-    @TableField("GOODS_UNIT_PRICE")
-    private BigDecimal goodsUnitPrice;
+    @TableField("PRODUCT_UNIT_PRICE")
+    private BigDecimal productUnitPrice;
 
     @ApiModelProperty(value = "商品数量")
-    @TableField("GOODS_NUM")
-    private Integer goodsNum;
+    @TableField("PRODUCT_NUM")
+    private Integer productNum;
 
     @ApiModelProperty(value = "所属商铺编号")
     @TableField("SHOP_ID")
