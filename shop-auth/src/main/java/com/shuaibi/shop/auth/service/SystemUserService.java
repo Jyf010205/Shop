@@ -23,14 +23,6 @@ public interface SystemUserService {
     Optional<User> register(User userParam);
 
     /**
-     * 登录功能
-     * @param username 用户名
-     * @param password 密码
-     * @return 生成的JWT的token
-     */
-    Optional<String> login(String username, String password);
-
-    /**
      * 获取用户所有权限（包括角色权限和+-权限）
      */
     List<Permission> getPermissionList(Long userId);

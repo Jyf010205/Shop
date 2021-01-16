@@ -3,31 +3,20 @@ package com.shuaibi.shop.auth.service.impl;
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.shuaibi.shop.auth.mapper.UserMapper;
 import com.shuaibi.shop.auth.mapper.UserRoleRelationMapper;
 import com.shuaibi.shop.auth.service.SystemUserService;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
-import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,13 +33,9 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;
-    @Autowired
-    private UserDetailsService userDetailsService;
     @Autowired
     private UserRoleRelationMapper userRoleRelationMapper;
 
@@ -62,7 +47,6 @@ public class SystemUserServiceImpl implements SystemUserService {
     /**
      * 用户注册
      * @param userParam
-     * @return
      */
     @Override
     public Optional<User> register(User userParam) {
@@ -84,33 +68,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     /**
-     * 登录以后返回token
-     * @param username 用户名
-     * @param password 密码
-     * @return
-     */
-    @Override
-    public Optional<String> login(String username, String password) {
-        String token = null;
-        try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-                throw new BadCredentialsException("密码不正确");
-            }
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = jwtTokenUtil.generateToken(userDetails);
-        } catch (AuthenticationException e) {
-            log.warn("登录异常:{}", e.getMessage());
-        }
-        return Optional.ofNullable(token);
-    }
-
-
-    /**
      * 获取用户权限
      * @param userId
-     * @return
      */
     @Override
     public List<Permission> getPermissionList(Long userId) {

@@ -1,5 +1,6 @@
 package com.shuaibi.shop.auth.security;
 
+import com.shuaibi.shop.auth.security.common.JwtLoginAuthenticationToken;
 import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.io.IOException;
 /**
  * @author: jianyufeng
  * @date: 2021/1/13 16:00
- * @description: JWT登录授权过滤器
+ * @description: JWT校验token的过滤器
  */
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
@@ -46,7 +47,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    JwtLoginAuthenticationToken authentication = new JwtLoginAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     log.info("authenticated user:{}", username);
                     //用户找到用户信息信息 就在当前的认证上下文中进行设置,确保后续的filter能够检测到认证通过

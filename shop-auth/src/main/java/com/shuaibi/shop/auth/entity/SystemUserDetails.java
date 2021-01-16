@@ -2,7 +2,6 @@ package com.shuaibi.shop.auth.entity;
 
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,7 +49,7 @@ public class SystemUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.getStatus().equals(1);
     }
 
     @Override
