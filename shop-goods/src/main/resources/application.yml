@@ -24,7 +24,7 @@ spring:
           password: root
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://121.5.40.72:3306/shop?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
-      p6spy: false
+      p6spy: true
 
 mybatis-plus:
   type-aliases-package: com.shuaibi.shop.common.entity.table
