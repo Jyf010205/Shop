@@ -88,6 +88,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Override
     public Long smsCode(Long mobile) {
         String code = RandomStringUtils.randomNumeric(6);
+        log.info("===============手机号:{}发送短信验证码:{}===============",mobile,code);
         /**
          * 生成验证码，60秒过期时间 放入Redis中
          * 发送短信功能暂未实现

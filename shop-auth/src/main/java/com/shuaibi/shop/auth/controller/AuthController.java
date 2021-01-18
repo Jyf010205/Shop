@@ -1,5 +1,7 @@
 package com.shuaibi.shop.auth.controller;
 
+import com.shuaibi.shop.auth.entity.request.CommonLoginRequest;
+import com.shuaibi.shop.auth.entity.request.SmsLoginRequest;
 import com.shuaibi.shop.auth.service.SystemUserService;
 import com.shuaibi.shop.common.entity.result.CommonResult;
 import com.shuaibi.shop.common.entity.table.User;
@@ -24,6 +26,24 @@ import java.util.Optional;
 public class AuthController {
     @Autowired
     private SystemUserService systemUserService;
+
+    /**
+     * 专供Swagger生成接口使用
+     */
+    @ApiOperation(value = "普通登录")
+    @PostMapping(value = "/login")
+    public void commonLogin(@RequestBody CommonLoginRequest commonLoginRequest){
+
+    }
+
+    /**
+     * 专供Swagger生成接口使用
+     */
+    @ApiOperation(value = "短信验证码登录")
+    @PostMapping(value = "/sms/login")
+    public void smsLogin(@RequestBody SmsLoginRequest smsLoginRequest){
+
+    }
 
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "/register")
