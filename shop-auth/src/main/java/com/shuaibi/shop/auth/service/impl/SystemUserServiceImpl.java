@@ -1,17 +1,23 @@
 package com.shuaibi.shop.auth.service.impl;
 
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.shuaibi.shop.auth.entity.SmsCode;
 import com.shuaibi.shop.auth.mapper.UserMapper;
 import com.shuaibi.shop.auth.mapper.UserRoleRelationMapper;
 import com.shuaibi.shop.auth.service.SystemUserService;
+import com.shuaibi.shop.common.constant.RedisKey;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,11 +43,18 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;
     @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
     private UserRoleRelationMapper userRoleRelationMapper;
 
     @Override
-    public User getAdminByUsername(String username) {
+    public User getUserByUsername(String username) {
         return userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+    }
+
+    @Override
+    public User getUserByMobile(Long mobile) {
+        return userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getMobile, mobile));
     }
 
     /**
@@ -65,6 +78,26 @@ public class SystemUserServiceImpl implements SystemUserService {
         user.setPassword(encodePassword);
         userMapper.insert(user);
         return Optional.of(user);
+    }
+
+    /**
+     * 发送短信验证码
+     * @param mobile
+     * @return
+     */
+    @Override
+    public Long smsCode(Long mobile) {
+        String code = RandomStringUtils.randomNumeric(6);
+        /**
+         * 生成验证码，60秒过期时间 放入Redis中
+         * 发送短信功能暂未实现
+         */
+        SmsCode smsCode = SmsCode.builder()
+                .mobile(mobile)
+                .code(code)
+                .expiredTime(DateUtil.offsetSecond(new DateTime(), 60)).build();
+        redisTemplate.opsForHash().put(RedisKey.SMS_CODE_KEY,mobile.toString(),JSONUtil.toJsonStr(smsCode));
+        return mobile;
     }
 
     /**

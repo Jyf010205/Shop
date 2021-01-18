@@ -1,10 +1,12 @@
-package com.shuaibi.shop.auth.security.common;
+package com.shuaibi.shop.auth.security;
 
+import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.shuaibi.shop.auth.service.SystemUserService;
 import com.shuaibi.shop.common.entity.result.CommonResult;
 import com.shuaibi.shop.common.utils.JwtTokenUtil;
+import io.netty.util.CharsetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -24,7 +26,7 @@ import java.io.PrintWriter;
  * @description: 登录成功处理器
  */
 @Component
-public class JwtLoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class AuthAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Value("${jwt.tokenHead}")
     private String tokenHead;
     @Autowired
@@ -37,7 +39,8 @@ public class JwtLoginAuthenticationSuccessHandler implements AuthenticationSucce
         String token = jwtTokenUtil.generateToken(userDetails);
         //生成Jwt返回值
         CommonResult<JSONObject> result = CommonResult.success(new JSONObject().set("token", token).set("tokenHead", tokenHead));
-        response.setContentType("application/json;charset=utf-8");
+        response.setContentType(ContentType.JSON.name());
+        response.setCharacterEncoding(CharsetUtil.UTF_8.name());
         //记录登录时间
         systemUserService.updateLoginTime(userDetails.getUsername());
         PrintWriter out = response.getWriter();

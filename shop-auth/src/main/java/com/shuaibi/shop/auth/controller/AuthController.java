@@ -35,6 +35,12 @@ public class AuthController {
         return CommonResult.success(user.get());
     }
 
+    @ApiOperation(value = "发送短信验证码")
+    @PostMapping(value = "/sms/code/{mobile}")
+    public CommonResult<Long> smsCode(@PathVariable Long mobile){
+        return CommonResult.success(systemUserService.smsCode(mobile));
+    }
+
     @ApiOperation(value = "获得当前登陆用户对应的对象")
     @GetMapping(value = "/getAuthentication")
     public CommonResult getAuthentication(){
