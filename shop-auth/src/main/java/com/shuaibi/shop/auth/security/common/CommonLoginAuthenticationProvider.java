@@ -17,10 +17,10 @@ import org.springframework.util.Assert;
 /**
  * @author: jianyufeng
  * @date: 2021/1/16 14:22
- * @description: 仿照 AbstractUserDetailsAuthenticationProvider 处理登录数据核心
+ * @description: 普通登录处理器 仿照 AbstractUserDetailsAuthenticationProvider
  */
 @Slf4j
-public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
+public class CommonLoginAuthenticationProvider implements AuthenticationProvider {
     protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
     private final UserCache userCache = new NullUserCache();
     protected boolean hideUserNotFoundExceptions = true;
@@ -32,13 +32,13 @@ public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;
 
-    public JwtLoginAuthenticationProvider() {
+    public CommonLoginAuthenticationProvider() {
         setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Assert.isInstanceOf(JwtLoginAuthenticationToken.class, authentication,
+        Assert.isInstanceOf(CommonLoginAuthenticationToken.class, authentication,
                 () -> messages.getMessage(
                         "AbstractUserDetailsAuthenticationProvider.onlySupports",
                         "Only JwtLoginAuthenticationToken is supported"));
@@ -78,7 +78,7 @@ public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
             preAuthenticationChecks.check(user);
             //校验密码 密码错误抛出BadCredentialsException
             additionalAuthenticationChecks(user,
-                    (JwtLoginAuthenticationToken) authentication);
+                    (CommonLoginAuthenticationToken) authentication);
         }
         catch (AuthenticationException exception) {
             if (cacheWasUsed) {
@@ -88,7 +88,7 @@ public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
                 user = retrieveUser(username);
                 preAuthenticationChecks.check(user);
                 additionalAuthenticationChecks(user,
-                        (JwtLoginAuthenticationToken) authentication);
+                        (CommonLoginAuthenticationToken) authentication);
             }
             else {
                 throw exception;
@@ -120,7 +120,7 @@ public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
      */
     @Override
     public boolean supports(Class<?> authentication) {
-        return JwtLoginAuthenticationToken.class.isAssignableFrom(authentication);
+        return CommonLoginAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
     protected final UserDetails retrieveUser(String username)throws AuthenticationException {
@@ -132,13 +132,9 @@ public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
             }
             return loadedUser;
         }
-        catch (UsernameNotFoundException ex) {
+        catch (UsernameNotFoundException | InternalAuthenticationServiceException ex) {
             throw ex;
-        }
-        catch (InternalAuthenticationServiceException ex) {
-            throw ex;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
         }
     }
@@ -185,7 +181,7 @@ public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    protected void additionalAuthenticationChecks(UserDetails userDetails,JwtLoginAuthenticationToken authentication)throws AuthenticationException {
+    protected void additionalAuthenticationChecks(UserDetails userDetails, CommonLoginAuthenticationToken authentication)throws AuthenticationException {
 
         if (authentication.getCredentials() == null) {
             log.debug("Authentication failed: no credentials provided");
@@ -220,7 +216,8 @@ public class JwtLoginAuthenticationProvider implements AuthenticationProvider {
     }
 
     protected Authentication createSuccessAuthentication(Object principal,Authentication authentication, UserDetails user) {
-        JwtLoginAuthenticationToken result = new JwtLoginAuthenticationToken(
+        //将Userdetail放入principal中
+        CommonLoginAuthenticationToken result = new CommonLoginAuthenticationToken(
                 principal, authentication.getCredentials(),
                 authoritiesMapper.mapAuthorities(user.getAuthorities()));
         result.setDetails(authentication.getDetails());

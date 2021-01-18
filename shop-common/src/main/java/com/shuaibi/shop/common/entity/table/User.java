@@ -1,6 +1,5 @@
 package com.shuaibi.shop.common.entity.table;
 
-import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -45,6 +44,9 @@ public class User implements Serializable {
     @ApiModelProperty(value = "邮箱")
     @Email(message = "邮箱格式不正确")
     private String email;
+
+    @ApiModelProperty(value = "手机号")
+    private Long mobile;
 
     @ApiModelProperty(value = "昵称")
     @NotBlank(message = "昵称不能为空")

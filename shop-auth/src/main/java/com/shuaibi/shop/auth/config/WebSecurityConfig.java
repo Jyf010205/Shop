@@ -1,14 +1,11 @@
 package com.shuaibi.shop.auth.config;
 
-import com.shuaibi.shop.auth.entity.SystemUserDetails;
+import com.shuaibi.shop.auth.security.AuthAccessDeniedHandler;
+import com.shuaibi.shop.auth.security.AuthAuthenticationEntryPoint;
 import com.shuaibi.shop.auth.security.JwtAuthenticationTokenFilter;
-import com.shuaibi.shop.auth.security.RestAuthenticationEntryPoint;
-import com.shuaibi.shop.auth.security.RestfulAccessDeniedHandler;
-import com.shuaibi.shop.auth.security.common.JwtLoginAuthenticationConfig;
-import com.shuaibi.shop.auth.service.SystemUserService;
-import com.shuaibi.shop.common.entity.table.Permission;
-import com.shuaibi.shop.common.entity.table.User;
-import com.shuaibi.shop.common.utils.Asserts;
+import com.shuaibi.shop.auth.security.SystemUserDetailsServiceImpl;
+import com.shuaibi.shop.auth.security.common.CommonLoginAuthenticationConfig;
+import com.shuaibi.shop.auth.security.sms.SmsLoginAuthenticationConfig;
 import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,12 +19,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.util.List;
 
 
 /**
@@ -50,19 +44,22 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private SystemUserService systemUserService;
+    private AuthAccessDeniedHandler accessDeniedHandler;
     @Autowired
-    JwtLoginAuthenticationConfig jwtLoginAuthenticationConfig;
+    private AuthAuthenticationEntryPoint authenticationEntryPoint;
     @Autowired
-    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    private SmsLoginAuthenticationConfig smsLoginAuthenticationConfig;
     @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private CommonLoginAuthenticationConfig commonLoginAuthenticationConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-            //添加Jwt登录configurer
-            http.apply(jwtLoginAuthenticationConfig)
+                //添加普通登录configurer
+        http.apply(commonLoginAuthenticationConfig)
+                .and()
+                //添加短信登录configurer
+                .apply(smsLoginAuthenticationConfig)
                 //由于使用的是JWT，不需要csrf
                 .and().csrf().disable()
                 //基于token，所以不需要session
@@ -81,15 +78,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs/**"
                 ).permitAll()
                 //对登录注册要允许匿名访问
-                .antMatchers("/admin/login", "/admin/register").permitAll()
+                .antMatchers("/admin/login", "/admin/register","/admin/sms/**").permitAll()
                 //跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 //除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 //添加自定义未授权和未登录结果返回
                 .and().exceptionHandling()
-                .accessDeniedHandler(restfulAccessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 //添加请求头校验token的过滤器
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -109,15 +106,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     public UserDetailsService userDetailsService() {
-        //获取登录用户信息
-        return username -> {
-            User user = systemUserService.getAdminByUsername(username);
-            if (user != null) {
-                List<Permission> permissionList = systemUserService.getPermissionList(user.getUserId());
-                return new SystemUserDetails(user,permissionList);
-            }
-            throw new UsernameNotFoundException("用户名或密码错误");
-        };
+        return new SystemUserDetailsServiceImpl();
     }
 
     @Bean

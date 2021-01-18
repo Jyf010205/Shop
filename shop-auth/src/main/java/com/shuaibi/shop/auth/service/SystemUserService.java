@@ -13,14 +13,26 @@ import java.util.Optional;
  */
 public interface SystemUserService {
     /**
-     * 根据用户名获取后台管理员
+     * 根据用户名获取用户
      */
-    User getAdminByUsername(String username);
+    User getUserByUsername(String username);
+
+    /**
+     * 根据手机号获取用户
+     */
+    User getUserByMobile(Long mobile);
 
     /**
      * 注册功能
      */
     Optional<User> register(User userParam);
+
+    /**
+     * 发送短信验证码
+     * @param mobile
+     * @return
+     */
+    Long smsCode(Long mobile);
 
     /**
      * 获取用户所有权限（包括角色权限和+-权限）

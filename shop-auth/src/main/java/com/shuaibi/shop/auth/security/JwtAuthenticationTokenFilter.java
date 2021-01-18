@@ -1,11 +1,10 @@
 package com.shuaibi.shop.auth.security;
 
-import com.shuaibi.shop.auth.security.common.JwtLoginAuthenticationToken;
+import com.shuaibi.shop.auth.security.common.CommonLoginAuthenticationToken;
 import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -47,7 +46,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                    JwtLoginAuthenticationToken authentication = new JwtLoginAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    CommonLoginAuthenticationToken authentication = new CommonLoginAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     log.info("authenticated user:{}", username);
                     //用户找到用户信息信息 就在当前的认证上下文中进行设置,确保后续的filter能够检测到认证通过

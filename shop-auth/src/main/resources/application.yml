@@ -8,6 +8,17 @@ spring:
     nacos:
       discovery:
         server-addr: 121.5.40.72:8848
+  redis:
+    database: 0
+    host: 121.5.40.72
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 8
+        max-idle: 500
+        max-active: 2000
+        max-wait: 10000
+    timeout: 5000
   datasource:
     dynamic:
       hikari:

@@ -9,9 +9,9 @@ import java.util.Collection;
 /**
  * @author: jianyufeng
  * @date: 2021/1/16 14:13
- * @description: 仿照 UsernamePasswordAuthenticationToken改写
+ * @description: 普通登录Authentication 仿照 UsernamePasswordAuthenticationToken改写
  */
-public class JwtLoginAuthenticationToken extends AbstractAuthenticationToken {
+public class CommonLoginAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
     //主要标识(UserName)
@@ -19,15 +19,15 @@ public class JwtLoginAuthenticationToken extends AbstractAuthenticationToken {
     //凭证(password)
     private Object credentials;
 
-    public JwtLoginAuthenticationToken(Object principal, Object credentials) {
+    public CommonLoginAuthenticationToken(Object principal, Object credentials) {
         super(null);
         this.principal = principal;
         this.credentials = credentials;
         setAuthenticated(false);
     }
 
-    public JwtLoginAuthenticationToken(Object principal, Object credentials,
-                                               Collection<? extends GrantedAuthority> authorities) {
+    public CommonLoginAuthenticationToken(Object principal, Object credentials,
+                                          Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         this.credentials = credentials;
@@ -46,11 +46,6 @@ public class JwtLoginAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        if (isAuthenticated) {
-            throw new IllegalArgumentException(
-                    "Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
-        }
-
         super.setAuthenticated(false);
     }
 
