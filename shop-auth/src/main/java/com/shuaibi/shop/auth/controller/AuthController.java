@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/admin")
-@Api(tags = "用户管理")
+@Api(tags = "登录管理")
 public class AuthController {
     @Autowired
     private SystemUserService systemUserService;

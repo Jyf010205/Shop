@@ -1,5 +1,7 @@
 package com.shuaibi.shop.common.entity.result;
 
+import com.shuaibi.shop.common.entity.enums.IErrorCode;
+
 /**
  * @author: jianyufeng
  * @date: 2021/1/13 15:38

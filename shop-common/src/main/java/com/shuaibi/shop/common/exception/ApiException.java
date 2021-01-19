@@ -1,6 +1,6 @@
 package com.shuaibi.shop.common.exception;
 
-import com.shuaibi.shop.common.entity.result.IErrorCode;
+import com.shuaibi.shop.common.entity.enums.IErrorCode;
 
 /**
  * @author: jianyufeng

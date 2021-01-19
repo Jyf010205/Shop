@@ -6,6 +6,7 @@ import com.shuaibi.shop.common.entity.result.CommonResult;
 import com.shuaibi.shop.common.exception.SmsLoginExpection;
 import io.netty.util.CharsetUtil;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,8 @@ public class AuthAuthenticationFailureHandler implements AuthenticationFailureHa
         if(exception instanceof BadCredentialsException){
             result = CommonResult.failed("用户名或密码错误");
         }else if (exception instanceof SmsLoginExpection){
+            result = CommonResult.failed(exception.getMessage());
+        }else if (exception instanceof LockedException){
             result = CommonResult.failed(exception.getMessage());
         }
         response.setContentType(ContentType.JSON.name());

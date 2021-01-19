@@ -1,6 +1,6 @@
 package com.shuaibi.shop.auth.security;
 
-import com.shuaibi.shop.auth.entity.SystemUserDetails;
+import com.shuaibi.shop.common.entity.SystemUserDetails;
 import com.shuaibi.shop.auth.service.SystemUserService;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;

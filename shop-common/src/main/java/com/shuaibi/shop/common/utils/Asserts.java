@@ -1,6 +1,6 @@
 package com.shuaibi.shop.common.utils;
 
-import com.shuaibi.shop.common.entity.result.IErrorCode;
+import com.shuaibi.shop.common.entity.enums.IErrorCode;
 import com.shuaibi.shop.common.exception.ApiException;
 
 /**

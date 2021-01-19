@@ -19,6 +19,7 @@ spring:
         max-active: 2000
         max-wait: 10000
     timeout: 5000
+    password: 123456
   datasource:
     dynamic:
       hikari:

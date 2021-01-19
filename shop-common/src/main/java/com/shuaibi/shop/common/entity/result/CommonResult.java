@@ -1,5 +1,6 @@
 package com.shuaibi.shop.common.entity.result;
 
+import com.shuaibi.shop.common.entity.enums.IErrorCode;
 import lombok.Data;
 
 /**

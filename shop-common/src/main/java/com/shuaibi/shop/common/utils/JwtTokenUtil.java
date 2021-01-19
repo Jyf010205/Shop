@@ -1,6 +1,7 @@
 package com.shuaibi.shop.common.utils;
 
 import cn.hutool.core.date.DateTime;
+import com.shuaibi.shop.common.entity.SystemUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 @Slf4j
 public class JwtTokenUtil {
-    private static final String CLAIM_KEY_USERNAME = "sub";
+    private static final String CLAIM_KEY_USERID = "userId";
     private static final String CLAIM_KEY_CREATED = "created";
     @Value("${jwt.secret}")
     private String secret;
@@ -105,8 +106,10 @@ public class JwtTokenUtil {
      * 根据用户信息生成token
      */
     public String generateToken(UserDetails userDetails) {
+        SystemUserDetails systemUserDetails = (SystemUserDetails) userDetails;
         Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+        claims.put(Claims.SUBJECT,systemUserDetails.getUsername());
+        claims.put(CLAIM_KEY_USERID, systemUserDetails.getUserId());
         claims.put(CLAIM_KEY_CREATED, new DateTime());
         return generateToken(claims);
     }

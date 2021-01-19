@@ -1,4 +1,4 @@
-package com.shuaibi.shop.auth.entity;
+package com.shuaibi.shop.common.entity;
 
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * @author: jianyufeng
  * @date: 2021/1/13 16:00
- * @description: SpringSecurity需要的用户详情
+ * @description: SpringSecurity 实现UserDetails接口
  */
 public class SystemUserDetails implements UserDetails {
     private User user;
@@ -32,6 +32,7 @@ public class SystemUserDetails implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -42,6 +43,10 @@ public class SystemUserDetails implements UserDetails {
         return user.getUsername();
     }
 
+    public Long getUserId(){
+        return user.getUserId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -49,7 +54,7 @@ public class SystemUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.getStatus().equals(1);
+        return user.getStatus();
     }
 
     @Override
@@ -59,6 +64,6 @@ public class SystemUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getStatus().equals(1);
+        return user.getStatus();
     }
 }

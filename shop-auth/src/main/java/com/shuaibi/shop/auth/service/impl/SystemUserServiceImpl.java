@@ -67,7 +67,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         BeanUtils.copyProperties(userParam, user);
         user.setUserId(snowflakeIdWorker.nextId());
         user.setCreateTime(new DateTime());
-        user.setStatus(User.STATUS_VALID);
+        user.setStatus(true);
         //查询是否有相同用户名的用户
         List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getUsername, user.getUsername()));
         if (userList.size() > 0) {

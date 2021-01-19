@@ -21,10 +21,6 @@ import java.util.Date;
 @TableName("t_user")
 public class User implements Serializable {
 
-    public static final Integer STATUS_VALID = 1;
-
-    public static final Integer STATUS_LOCK = 0;
-
     @TableId(type = IdType.AUTO)
     private Long id;
 
@@ -49,7 +45,6 @@ public class User implements Serializable {
     private Long mobile;
 
     @ApiModelProperty(value = "昵称")
-    @NotBlank(message = "昵称不能为空")
     private String nickName;
 
     @ApiModelProperty(value = "备注信息")
@@ -64,7 +59,7 @@ public class User implements Serializable {
     private Date loginTime;
 
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
-    private Integer status;
+    private Boolean status;
 
     private static final long serialVersionUID = 1L;
 }

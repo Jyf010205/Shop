@@ -46,7 +46,8 @@ public class SmsLoginAuthenticationProvider implements AuthenticationProvider {
         }else if (!StrUtil.equals(code,smsCode.getCode())){
             throw new SmsLoginExpection("验证码不正确！");
         }
-
+        //验证完毕，删除验证码
+        redisTemplate.opsForHash().delete(RedisKey.SMS_CODE_KEY,mobile.toString());
         SystemUserDetailsServiceImpl systemUserDetailsService = (SystemUserDetailsServiceImpl) userDetailsService;
 
         UserDetails user = systemUserDetailsService.loadUserByModile(mobile);

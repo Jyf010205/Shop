@@ -1,4 +1,4 @@
-package com.shuaibi.shop.common.entity.result;
+package com.shuaibi.shop.common.entity.enums;
 
 /**
  * @author: jianyufeng

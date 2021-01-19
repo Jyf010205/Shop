@@ -1,5 +1,6 @@
 package com.shuaibi.shop.auth;
 
+import com.shuaibi.shop.common.annotation.EnableMybatisPageHandler;
 import com.shuaibi.shop.common.annotation.EnableRedisHandler;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import com.shuaibi.shop.common.utils.SpringContextHolder;
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
+
 /**
  * @author: jianyufeng
  * @date: 2021/1/8 15:50
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableRedisHandler
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableMybatisPageHandler
 @EnableTransactionManagement
 @MapperScan("com.shuaibi.shop.auth.mapper")
 public class ShopAuthApplication {
