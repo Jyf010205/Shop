@@ -29,6 +29,7 @@ public class CommonLoginAuthenticationFilter extends AbstractAuthenticationProce
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 
+        //从请求头的channel中获取登录渠道
         String channelStr = request.getHeader("channel");
         String requestBodyStr = HttpRequestUtil.readAsChars(request);
         JSONObject requestBody = JSONUtil.parseObj(requestBodyStr);

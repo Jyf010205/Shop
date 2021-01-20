@@ -76,6 +76,20 @@ public class JwtTokenUtil {
     }
 
     /**
+     * 从token中获取UserId
+     */
+    public String getUserIdFromToken(String token) {
+        Long userId;
+        try {
+            Claims claims = getClaimsFromToken(token);
+            userId = claims.get(CLAIM_KEY_USERID,Long.class);
+        } catch (Exception e) {
+            userId = null;
+        }
+        return userId.toString();
+    }
+
+    /**
      * 验证token是否还有效
      *
      * @param token       客户端传入的token

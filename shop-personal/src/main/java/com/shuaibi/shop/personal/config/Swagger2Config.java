@@ -1,4 +1,4 @@
-package com.shuaibi.shop.auth.config;
+package com.shuaibi.shop.personal.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
                 //为当前包下controller生成API文档
-                .apis(RequestHandlerSelectors.basePackage("com.shuaibi.shop.auth.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.shuaibi.shop.personal.controller"))
                 .paths(PathSelectors.regex("^(?!auth).*$"))
                 .build()
                 //添加登录认证
@@ -41,7 +41,7 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("登录模块-SwaggerUI")
+                .title("个人信息模块-SwaggerUI")
                 .description("帅逼商城")
                 .contact("macro")
                 .version("1.0")

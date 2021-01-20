@@ -12,6 +12,7 @@
         <module>shop-common</module>
         <module>shop-auth</module>
         <module>shop-goods</module>
+        <module>shop-personal</module>
     </modules>
 
     <name>ShuaiBiShop</name>

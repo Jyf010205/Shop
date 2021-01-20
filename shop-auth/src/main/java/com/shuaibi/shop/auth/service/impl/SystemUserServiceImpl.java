@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
@@ -47,6 +48,7 @@ public class SystemUserServiceImpl implements ISystemUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+    @Qualifier("UserSnowflakeIdWorker")
     private SnowflakeIdWorker snowflakeIdWorker;
     @Autowired
     private UserLoginLogMapper userLoginLogMapper;

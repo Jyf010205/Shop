@@ -29,6 +29,7 @@ public class SmsLoginAuthenticationFilter extends AbstractAuthenticationProcessi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 
+        //请求头中的Channel
         String channelStr = request.getHeader("channel");
         String requestBodyStr = HttpRequestUtil.readAsChars(request);
         JSONObject requestBody = JSONUtil.parseObj(requestBodyStr);
