@@ -36,18 +36,22 @@ public class SmsLoginAuthenticationProvider implements AuthenticationProvider {
         String code = (String) authentication.getCredentials();
         String smsCodeStr = (String) redisTemplate.opsForHash().get(RedisKey.SMS_CODE_KEY, mobile.toString());
         SmsCode smsCode = JSONUtil.toBean(smsCodeStr, SmsCode.class);
-        //校验短信验证码
-        if (code == null){
-            throw new SmsLoginExpection("验证码不能为空！");
-        }else if (smsCode == null){
-            throw new SmsLoginExpection("验证码不存在，请重新发送！");
-        }else if (DateUtil.compare(new DateTime(),smsCode.getExpiredTime()) > 0){
-            throw new SmsLoginExpection("验证码已过期，请重新发送！");
-        }else if (!StrUtil.equals(code,smsCode.getCode())){
-            throw new SmsLoginExpection("验证码不正确！");
+        try {
+            //校验短信验证码
+            if (code == null){
+                throw new SmsLoginExpection("验证码不能为空！");
+            }else if (smsCode == null){
+                throw new SmsLoginExpection("验证码不存在，请重新发送！");
+            }else if (DateUtil.compare(new DateTime(),smsCode.getExpiredTime()) > 0){
+                throw new SmsLoginExpection("验证码已过期，请重新发送！");
+            }else if (!StrUtil.equals(code,smsCode.getCode())){
+                throw new SmsLoginExpection("验证码不正确！");
+            }
+        }finally {
+            //验证完毕，删除验证码
+            redisTemplate.opsForHash().delete(RedisKey.SMS_CODE_KEY,mobile.toString());
         }
-        //验证完毕，删除验证码
-        redisTemplate.opsForHash().delete(RedisKey.SMS_CODE_KEY,mobile.toString());
+
         SystemUserDetailsServiceImpl systemUserDetailsService = (SystemUserDetailsServiceImpl) userDetailsService;
 
         UserDetails user = systemUserDetailsService.loadUserByModile(mobile);

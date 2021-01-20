@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @description: 角色和权限关系表
  */
 @Data
-@TableName("t_role_permission_relation")
+@TableName("ums_role_permission_relation")
 public class RolePermissionRelation implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;

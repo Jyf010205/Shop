@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableMybatisPageHandler
 @EnableTransactionManagement
-@MapperScan("com.shuaibi.shop.auth.mapper")
+@MapperScan("com.shuaibi.shop.common.mapper")
 public class ShopAuthApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShopAuthApplication.class, args);

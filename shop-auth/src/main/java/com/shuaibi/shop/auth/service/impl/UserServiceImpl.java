@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shuaibi.shop.auth.entity.request.FindUserListRequest;
-import com.shuaibi.shop.auth.mapper.UserMapper;
+import com.shuaibi.shop.common.mapper.UserMapper;
 import com.shuaibi.shop.auth.service.IUserService;
 import com.shuaibi.shop.common.entity.BatchRequest;
 import com.shuaibi.shop.common.entity.table.User;

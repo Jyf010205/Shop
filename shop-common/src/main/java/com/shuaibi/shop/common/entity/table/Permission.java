@@ -1,6 +1,5 @@
 package com.shuaibi.shop.common.entity.table;
 
-import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -17,7 +16,7 @@ import java.util.Date;
  * @description: 权限表
  */
 @Data
-@TableName("t_permission")
+@TableName("ums_permission")
 public class Permission implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;

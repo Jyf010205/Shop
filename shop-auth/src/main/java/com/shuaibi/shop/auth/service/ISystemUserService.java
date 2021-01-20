@@ -2,6 +2,7 @@ package com.shuaibi.shop.auth.service;
 
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,7 @@ import java.util.Optional;
  * @date: 2021/1/13 16:01
  * @description: 后台管理员Service
  */
-public interface SystemUserService {
+public interface ISystemUserService {
     /**
      * 根据用户名获取用户
      */
@@ -41,7 +42,7 @@ public interface SystemUserService {
 
     /**
      * 异步记录登录时间
-     * @param username
+     * @param authentication
      */
-    void updateLoginTime(String username);
+    void updateLoginTime(Authentication authentication);
 }

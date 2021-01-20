@@ -1,7 +1,7 @@
 package com.shuaibi.shop.auth.security;
 
 import com.shuaibi.shop.common.entity.SystemUserDetails;
-import com.shuaibi.shop.auth.service.SystemUserService;
+import com.shuaibi.shop.auth.service.ISystemUserService;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
 import com.shuaibi.shop.common.exception.SmsLoginExpection;
@@ -20,7 +20,7 @@ import java.util.List;
 public class SystemUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private SystemUserService systemUserService;
+    private ISystemUserService systemUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

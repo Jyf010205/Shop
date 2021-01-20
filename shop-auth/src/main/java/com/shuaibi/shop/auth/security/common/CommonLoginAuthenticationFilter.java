@@ -2,6 +2,7 @@ package com.shuaibi.shop.auth.security.common;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.shuaibi.shop.common.entity.enums.ChannelType;
 import com.shuaibi.shop.common.utils.HttpRequestUtil;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
@@ -28,8 +29,11 @@ public class CommonLoginAuthenticationFilter extends AbstractAuthenticationProce
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 
+        String channelStr = request.getHeader("channel");
         String requestBodyStr = HttpRequestUtil.readAsChars(request);
         JSONObject requestBody = JSONUtil.parseObj(requestBodyStr);
+        //登录渠道
+        ChannelType channel = channelStr != null ? Enum.valueOf(ChannelType.class, channelStr) : ChannelType.No_Channel;
         String username = requestBody.getStr("username");
         String password = requestBody.getStr("password");
 
@@ -46,15 +50,18 @@ public class CommonLoginAuthenticationFilter extends AbstractAuthenticationProce
         CommonLoginAuthenticationToken authRequest = new CommonLoginAuthenticationToken(
                 username, password);
 
-        //把Ip Session放入 authRequest
-        setDetails(request, authRequest);
+        //把Ip,登录渠道 放入 authRequest
+        setDetails(request, authRequest,channel);
 
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
     protected void setDetails(HttpServletRequest request,
-                              CommonLoginAuthenticationToken authRequest) {
-        authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
+                              CommonLoginAuthenticationToken authRequest,
+                              ChannelType channel) {
+        JSONObject detail = JSONUtil.parseObj(authenticationDetailsSource.buildDetails(request));
+        detail.set("channel",channel);
+        authRequest.setDetails(detail);
     }
 
 }

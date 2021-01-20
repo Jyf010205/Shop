@@ -2,6 +2,7 @@ package com.shuaibi.shop.auth.security.sms;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.shuaibi.shop.common.entity.enums.ChannelType;
 import com.shuaibi.shop.common.utils.HttpRequestUtil;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
@@ -28,22 +29,28 @@ public class SmsLoginAuthenticationFilter extends AbstractAuthenticationProcessi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
 
+        String channelStr = request.getHeader("channel");
         String requestBodyStr = HttpRequestUtil.readAsChars(request);
         JSONObject requestBody = JSONUtil.parseObj(requestBodyStr);
+        //登录渠道
+        ChannelType channel = channelStr != null ? Enum.valueOf(ChannelType.class, channelStr) : ChannelType.No_Channel;
         Long mobile = requestBody.getLong("mobile");
         String code = requestBody.getStr("code");
 
         SmsLoginAuthenticationToken authRequest = new SmsLoginAuthenticationToken(
                 mobile, code);
 
-        //把Ip Session放入 authRequest
-        setDetails(request, authRequest);
+        //把Ip,登录渠道 放入 authRequest
+        setDetails(request, authRequest,channel);
 
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
     protected void setDetails(HttpServletRequest request,
-                              SmsLoginAuthenticationToken authRequest) {
-        authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
+                              SmsLoginAuthenticationToken authRequest,
+                              ChannelType channel) {
+        JSONObject detail = JSONUtil.parseObj(authenticationDetailsSource.buildDetails(request));
+        detail.set("channel",channel);
+        authRequest.setDetails(detail);
     }
 }

@@ -3,7 +3,7 @@ package com.shuaibi.shop.auth.security;
 import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.shuaibi.shop.auth.service.SystemUserService;
+import com.shuaibi.shop.auth.service.ISystemUserService;
 import com.shuaibi.shop.common.entity.result.CommonResult;
 import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import io.netty.util.CharsetUtil;
@@ -32,7 +32,7 @@ public class AuthAuthenticationSuccessHandler implements AuthenticationSuccessHa
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
-    SystemUserService systemUserService;
+    ISystemUserService systemUserService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -42,7 +42,8 @@ public class AuthAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setContentType(ContentType.JSON.name());
         response.setCharacterEncoding(CharsetUtil.UTF_8.name());
         //记录登录时间
-        systemUserService.updateLoginTime(userDetails.getUsername());
+        systemUserService.updateLoginTime(authentication);
+
         PrintWriter out = response.getWriter();
         out.write(JSONUtil.toJsonStr(result));
         out.flush();

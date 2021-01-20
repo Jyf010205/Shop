@@ -1,4 +1,4 @@
-package com.shuaibi.shop.auth.mapper;
+package com.shuaibi.shop.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.shuaibi.shop.common.entity.table.Permission;
@@ -22,10 +22,10 @@ public interface UserRoleRelationMapper extends BaseMapper<UserRoleRelation> {
     @Select("SELECT\n" +
             "            p.*\n" +
             "        FROM\n" +
-            "            t_user_role_relation ar\n" +
-            "            LEFT JOIN t_role r ON ar.role_id = r.id\n" +
-            "            LEFT JOIN t_role_permission_relation rp ON r.id = rp.role_id\n" +
-            "            LEFT JOIN t_permission p ON rp.permission_id = p.id\n" +
+            "            ums_user_role_relation ar\n" +
+            "            LEFT JOIN ums_role r ON ar.role_id = r.id\n" +
+            "            LEFT JOIN ums_role_permission_relation rp ON r.id = rp.role_id\n" +
+            "            LEFT JOIN ums_permission p ON rp.permission_id = p.id\n" +
             "        WHERE\n" +
             "            ar.user_id = #{userId}\n" +
             "            AND p.id IS NOT NULL\n" +
@@ -33,8 +33,8 @@ public interface UserRoleRelationMapper extends BaseMapper<UserRoleRelation> {
             "                SELECT\n" +
             "                    p.id\n" +
             "                FROM\n" +
-            "                    t_user_permission_relation pr\n" +
-            "                    LEFT JOIN t_permission p ON pr.permission_id = p.id\n" +
+            "                    ums_user_permission_relation pr\n" +
+            "                    LEFT JOIN ums_permission p ON pr.permission_id = p.id\n" +
             "                WHERE\n" +
             "                    pr.type = - 1\n" +
             "                    AND pr.user_id = #{userId}\n" +
@@ -43,8 +43,8 @@ public interface UserRoleRelationMapper extends BaseMapper<UserRoleRelation> {
             "        SELECT\n" +
             "            p.*\n" +
             "        FROM\n" +
-            "            t_user_permission_relation pr\n" +
-            "            LEFT JOIN t_permission p ON pr.permission_id = p.id\n" +
+            "            ums_user_permission_relation pr\n" +
+            "            LEFT JOIN ums_permission p ON pr.permission_id = p.id\n" +
             "        WHERE\n" +
             "            pr.type = 1\n" +
             "            AND pr.user_id = #{userId}")

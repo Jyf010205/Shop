@@ -2,7 +2,7 @@ package com.shuaibi.shop.auth.controller;
 
 import com.shuaibi.shop.auth.entity.request.CommonLoginRequest;
 import com.shuaibi.shop.auth.entity.request.SmsLoginRequest;
-import com.shuaibi.shop.auth.service.SystemUserService;
+import com.shuaibi.shop.auth.service.ISystemUserService;
 import com.shuaibi.shop.common.entity.result.CommonResult;
 import com.shuaibi.shop.common.entity.table.User;
 import com.shuaibi.shop.common.utils.Asserts;
@@ -25,7 +25,7 @@ import java.util.Optional;
 @Api(tags = "登录管理")
 public class AuthController {
     @Autowired
-    private SystemUserService systemUserService;
+    private ISystemUserService systemUserService;
 
     /**
      * 专供Swagger生成接口使用

@@ -4,39 +4,39 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.shuaibi.shop.common.entity.enums.ChannelType;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author: jianyufeng
- * @date: 2021/1/13 15:38
- * @description: 角色表
+ * @date: 2021/1/20 15:35
+ * @description: 用户登陆记录表
  */
 @Data
-@TableName("ums_role")
-public class Role implements Serializable {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("ums_user_login_log")
+public class UserLoginLog {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "名称")
-    private String name;
+    @ApiModelProperty(value = "用户ID")
+    private Long userId;
 
-    @ApiModelProperty(value = "描述")
-    private String description;
+    @ApiModelProperty(value = "IP")
+    private String ip;
 
-    @ApiModelProperty(value = "后台用户数量")
-    private Integer adminCount;
+    @ApiModelProperty(value = "登录类型")
+    private ChannelType loginChannel;
 
     @ApiModelProperty(value = "创建时间")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
-    @ApiModelProperty(value = "启用状态：0->禁用；1->启用")
-    private Integer status;
-
-    private Integer sort;
-
 }

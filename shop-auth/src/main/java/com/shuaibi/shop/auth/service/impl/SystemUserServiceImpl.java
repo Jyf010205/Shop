@@ -2,16 +2,21 @@ package com.shuaibi.shop.auth.service.impl;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.shuaibi.shop.auth.entity.SmsCode;
-import com.shuaibi.shop.auth.mapper.UserMapper;
-import com.shuaibi.shop.auth.mapper.UserRoleRelationMapper;
-import com.shuaibi.shop.auth.service.SystemUserService;
+import com.shuaibi.shop.auth.service.ISystemUserService;
 import com.shuaibi.shop.common.constant.RedisKey;
+import com.shuaibi.shop.common.entity.SystemUserDetails;
+import com.shuaibi.shop.common.entity.enums.ChannelType;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
+import com.shuaibi.shop.common.entity.table.UserLoginLog;
+import com.shuaibi.shop.common.mapper.UserLoginLogMapper;
+import com.shuaibi.shop.common.mapper.UserMapper;
+import com.shuaibi.shop.common.mapper.UserRoleRelationMapper;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
@@ -19,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +41,15 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class SystemUserServiceImpl implements SystemUserService {
+public class SystemUserServiceImpl implements ISystemUserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;
+    @Autowired
+    private UserLoginLogMapper userLoginLogMapper;
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
@@ -66,7 +74,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         User user = new User();
         BeanUtils.copyProperties(userParam, user);
         user.setUserId(snowflakeIdWorker.nextId());
-        user.setCreateTime(new DateTime());
+        user.setRegisterTime(new DateTime());
         user.setStatus(true);
         //查询是否有相同用户名的用户
         List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getUsername, user.getUsername()));
@@ -112,13 +120,24 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     /**
      * 异步记录登录时间
-     * @param username
+     * @param authentication
      */
     @Async
     @Override
-    public void updateLoginTime(String username){
+    public void updateLoginTime(Authentication authentication){
+        Object details = authentication.getDetails();
+        JSONObject detailJson = new JSONObject(details);
+        SystemUserDetails userDetails = (SystemUserDetails) authentication.getPrincipal();
+
         userMapper.update(null,new LambdaUpdateWrapper<User>()
                 .set(User::getLoginTime,new DateTime())
-                .eq(User::getUsername,username));
+                .eq(User::getUserId,userDetails.getUserId()));
+
+        UserLoginLog userLoginLog = UserLoginLog.builder()
+                .userId(userDetails.getUserId())
+                .ip(detailJson.getStr("remoteAddress"))
+                .loginChannel(detailJson.getEnum(ChannelType.class,"channel"))
+                .createTime(new DateTime()).build();
+        userLoginLogMapper.insert(userLoginLog);
     }
 }

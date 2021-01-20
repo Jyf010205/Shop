@@ -1,4 +1,4 @@
-package com.shuaibi.shop.auth.mapper;
+package com.shuaibi.shop.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.shuaibi.shop.common.entity.table.User;
