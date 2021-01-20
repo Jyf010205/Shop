@@ -18,7 +18,7 @@ import java.util.Optional;
 /**
  * @author: jianyufeng
  * @date: 2021/1/13 16:03
- * @description: 用户管理
+ * @description: 登录管理
  */
 @RestController
 @RequestMapping("/admin")

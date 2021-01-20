@@ -1,9 +1,9 @@
 package com.shuaibi.shop.auth.security;
 
+import com.shuaibi.shop.common.constant.JwtConstant;
 import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,19 +28,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Value("${jwt.tokenHeader}")
-    private String tokenHeader;
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
         //尝试从token中解析对象 （token中可以存放任何信息）
-        String authHeader = request.getHeader(this.tokenHeader);
-        if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
-            String authToken = authHeader.substring(this.tokenHead.length());
+        String authHeader = request.getHeader(JwtConstant.tokenHeader);
+        if (authHeader != null && authHeader.startsWith(JwtConstant.tokenHead)) {
+            String authToken = authHeader.substring(JwtConstant.tokenHead.length());
             String username = jwtTokenUtil.getUserNameFromToken(authToken);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
