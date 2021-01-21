@@ -11,3 +11,5 @@ ShuaiBiShop.iml
 /shop-personal/shop-personal.iml
 /shop-auth/src/main/resources/rebel.xml
 /shop-goods/src/main/resources/rebel.xml
+/shop-gateway/target/classes/
+/shop-gateway/shop-gateway.iml

@@ -1,0 +1,27 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: getway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: Shop-Auth
+          uri: lb://Shop-Auth
+          predicates:
+            - Path=/Shop-Auth/*
+        - id: Shop-Goods
+          uri: lb://Shop-Goods
+          predicates:
+            - Path=/Shop-Goods/*
+        - id: Shop-Personal
+          uri: lb://Shop-Personal
+          predicates:
+            - Path=/Shop-Personal/*
+    #service-consumer
+    nacos:
+      discovery:
+        server-addr: 121.5.40.72:8848 #注册中心地址
