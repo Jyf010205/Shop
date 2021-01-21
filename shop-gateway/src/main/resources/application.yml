@@ -2,7 +2,7 @@ server:
   port: 9000
 spring:
   application:
-    name: getway
+    name: gateway
   cloud:
     gateway:
       discovery:

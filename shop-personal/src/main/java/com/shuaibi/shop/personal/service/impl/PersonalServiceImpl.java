@@ -1,4 +1,4 @@
-package com.shuaibi.shop.personal.servie.impl;
+package com.shuaibi.shop.personal.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -7,10 +7,8 @@ import com.shuaibi.shop.common.entity.table.User;
 import com.shuaibi.shop.common.mapper.UserMapper;
 import com.shuaibi.shop.common.utils.Asserts;
 import com.shuaibi.shop.personal.entity.request.ModifyPasswordRequest;
-import com.shuaibi.shop.personal.entity.request.UpdateUserRequest;
-import com.shuaibi.shop.personal.servie.IPersonalService;
+import com.shuaibi.shop.personal.service.IPersonalService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,17 +41,15 @@ public class PersonalServiceImpl implements IPersonalService {
 
     /**
      * 修改个人信息
-     * @param request
+     * @param user
      * @param userId
      * @return
      */
     @Override
-    public Integer update(UpdateUserRequest request, String userId) {
-        if (!StrUtil.equals(request.getUserId().toString(),userId)){
+    public Integer update(User user, String userId) {
+        if (!StrUtil.equals(user.getUserId().toString(),userId)){
             Asserts.fail("只能修改自己的信息");
         }
-        User user = new User();
-        BeanUtils.copyProperties(request,user);
         return userMapper.update(user,new LambdaQueryWrapper<User>().eq(User::getUserId,userId));
     }
 

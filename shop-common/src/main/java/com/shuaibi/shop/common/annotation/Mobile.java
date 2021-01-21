@@ -17,7 +17,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = MobileValidator.class)
 public @interface Mobile {
-    String message() default "手机格式不正确";
+    String message() ;
 
     Class<?>[] groups() default { };
 

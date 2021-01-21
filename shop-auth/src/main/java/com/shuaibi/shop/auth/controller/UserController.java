@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 import java.util.Optional;
 
 /**
@@ -47,10 +47,10 @@ public class UserController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping()
     @ApiOperation("修改用户")
     @PreAuthorize("hasAuthority('user:update')")
-    public CommonResult<User> update(@PathVariable Long id,@RequestBody User user){
+    public CommonResult<User> update(@Valid @RequestBody User user){
         boolean status = userService.updateById(user);
         if (!status){
             Asserts.fail("修改失败");
@@ -83,7 +83,7 @@ public class UserController {
     @PostMapping("/batch")
     @ApiOperation("批量操作")
     @PreAuthorize("hasAuthority('user:read') and hasAuthority('user:update') and hasAuthority('user:delete')")
-    public CommonResult<List<Long>> batchDelete(@RequestBody BatchRequest request){
+    public CommonResult batchDelete(@RequestBody BatchRequest request){
         boolean status = userService.batch(request);
         if (!status){
             Asserts.fail("批量操作失败");

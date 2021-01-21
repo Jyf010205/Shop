@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -29,10 +28,10 @@ public class User implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
 
-    @NotBlank(message = "用户名不能为空")
+    @ApiModelProperty(value = "用户名")
     private String username;
 
-    @NotBlank(message = "密码不能为空")
+    @ApiModelProperty(value = "密码")
     private String password;
 
     @ApiModelProperty(value = "头像")
