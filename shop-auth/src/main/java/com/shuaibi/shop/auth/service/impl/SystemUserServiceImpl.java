@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.shuaibi.shop.auth.entity.SmsCode;
+import com.shuaibi.shop.auth.entity.request.RegisterRequest;
 import com.shuaibi.shop.auth.service.ISystemUserService;
 import com.shuaibi.shop.common.constant.RedisKey;
 import com.shuaibi.shop.common.entity.SystemUserDetails;
@@ -69,12 +70,12 @@ public class SystemUserServiceImpl implements ISystemUserService {
 
     /**
      * 用户注册
-     * @param userParam
+     * @param request
      */
     @Override
-    public Optional<User> register(User userParam) {
+    public Optional<User> register(RegisterRequest request) {
         User user = new User();
-        BeanUtils.copyProperties(userParam, user);
+        BeanUtils.copyProperties(request, user);
         user.setUserId(snowflakeIdWorker.nextId());
         user.setRegisterTime(new DateTime());
         user.setStatus(true);

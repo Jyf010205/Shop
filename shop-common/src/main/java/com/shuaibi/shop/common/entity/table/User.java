@@ -26,6 +26,7 @@ public class User implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "用户ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
 
     @NotBlank(message = "用户名不能为空")
@@ -35,7 +36,6 @@ public class User implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "头像")
-    @NotBlank(message = "头像不能为空")
     private String icon;
 
     @ApiModelProperty(value = "邮箱")

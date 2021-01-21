@@ -1,5 +1,6 @@
 package com.shuaibi.shop.auth.service;
 
+import com.shuaibi.shop.auth.entity.request.RegisterRequest;
 import com.shuaibi.shop.common.entity.table.Permission;
 import com.shuaibi.shop.common.entity.table.User;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,7 @@ public interface ISystemUserService {
     /**
      * 注册功能
      */
-    Optional<User> register(User userParam);
+    Optional<User> register(RegisterRequest request);
 
     /**
      * 发送短信验证码

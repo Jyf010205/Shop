@@ -1,4 +1,4 @@
-package com.shuaibi.shop.common.entity;
+package com.shuaibi.shop.common.validator;
 
 import com.shuaibi.shop.common.annotation.Mobile;
 
@@ -22,6 +22,7 @@ public class MobileValidator implements ConstraintValidator<Mobile, Long> {
     public boolean isValid(Long value, ConstraintValidatorContext context) {
         Pattern p = Pattern.compile("^((13[0-9])|(14[5,7])|(15[^4,\\D])|(17[0,1,3,6-8])|(18[0-9])|(19[8,9])|(166))[0-9]{8}$");
         Matcher m = p.matcher(String.valueOf(value));
-        return m.matches();
+        //如果为空，返回true
+        return value == null || m.matches();
     }
 }

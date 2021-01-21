@@ -1,6 +1,7 @@
 package com.shuaibi.shop.auth.controller;
 
 import com.shuaibi.shop.auth.entity.request.CommonLoginRequest;
+import com.shuaibi.shop.auth.entity.request.RegisterRequest;
 import com.shuaibi.shop.auth.entity.request.SmsLoginRequest;
 import com.shuaibi.shop.auth.service.ISystemUserService;
 import com.shuaibi.shop.common.entity.result.CommonResult;
@@ -47,8 +48,8 @@ public class AuthController {
 
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "/register")
-    public CommonResult<User> register(@Valid @RequestBody User userParam) {
-        Optional<User> user = systemUserService.register(userParam);
+    public CommonResult<User> register(@Valid @RequestBody RegisterRequest request) {
+        Optional<User> user = systemUserService.register(request);
         if (!user.isPresent()) {
             Asserts.fail("用户注册失败");
         }
@@ -62,7 +63,7 @@ public class AuthController {
     }
 
     @ApiOperation(value = "获得当前登陆用户对应的对象")
-    @GetMapping(value = "/getAuthentication")
+    @GetMapping(value = "/authentication")
     public CommonResult getAuthentication(){
         return CommonResult.success(SecurityContextHolder.getContext().getAuthentication());
     }

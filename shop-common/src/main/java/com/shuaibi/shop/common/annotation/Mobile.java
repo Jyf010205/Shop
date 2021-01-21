@@ -1,6 +1,6 @@
 package com.shuaibi.shop.common.annotation;
 
-import com.shuaibi.shop.common.entity.MobileValidator;
+import com.shuaibi.shop.common.validator.MobileValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
