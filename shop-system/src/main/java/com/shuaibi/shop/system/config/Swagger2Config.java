@@ -31,7 +31,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
                 //为当前包下controller生成API文档
-                .apis(RequestHandlerSelectors.basePackage("com.shuaibi.shop.auth.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.shuaibi.shop.system.controller"))
                 .paths(PathSelectors.regex("^(?!auth).*$"))
                 .build()
                 //添加登录认证

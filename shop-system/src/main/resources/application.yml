@@ -37,6 +37,10 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://121.5.40.72:3306/shop?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
       p6spy: true
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      max-file-size: 10MB #限制文件上传大小为10M
 
 mybatis-plus:
   type-aliases-package: com.shuaibi.shop.common.entity.table
@@ -54,3 +58,9 @@ jwt:
   expiration: 604800 #JWT的超期限时间(60*60*24)
   tokenHead: Bearer  #JWT负载中拿到开头
 
+# MinIO对象存储相关配置
+minio:
+  endpoint: http://121.5.40.72:9000 #MinIO服务所在地址
+  bucketName: shop #存储桶名称
+  accessKey: minioadmin #访问的key
+  secretKey: minioadmin #访问的秘钥

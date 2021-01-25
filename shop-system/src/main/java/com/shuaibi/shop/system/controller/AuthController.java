@@ -53,13 +53,13 @@ public class AuthController {
         if (!user.isPresent()) {
             Asserts.fail("用户注册失败");
         }
-        return CommonResult.success(user.get());
+        return CommonResult.success(user.get(),"用户注册成功");
     }
 
     @ApiOperation(value = "发送短信验证码")
     @PostMapping(value = "/sms/code/{mobile}")
     public CommonResult<Long> smsCode(@PathVariable Long mobile){
-        return CommonResult.success(systemUserService.smsCode(mobile));
+        return CommonResult.success(systemUserService.smsCode(mobile),"发送成功");
     }
 
     @ApiOperation(value = "获得当前登陆用户对应的对象")
