@@ -21,7 +21,7 @@ public class RolePermissionRelation implements Serializable {
 
     private Long roleId;
 
-    private Long permissionId;
+    private Long PERMISSIONID;
 
     private static final long serialVersionUID = 1L;
 }

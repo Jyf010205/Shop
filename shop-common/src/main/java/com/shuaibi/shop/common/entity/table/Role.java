@@ -28,7 +28,7 @@ public class Role implements Serializable {
     private String description;
 
     @ApiModelProperty(value = "后台用户数量")
-    private Integer adminCount;
+    private Integer userCount;
 
     @ApiModelProperty(value = "创建时间")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

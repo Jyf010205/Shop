@@ -9,10 +9,10 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: Shop-Auth
-          uri: lb://Shop-Auth
+        - id: Shop-System
+          uri: lb://Shop-System
           predicates:
-            - Path=/Shop-Auth/*
+            - Path=/Shop-System/*
         - id: Shop-Goods
           uri: lb://Shop-Goods
           predicates:

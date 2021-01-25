@@ -13,14 +13,14 @@ import java.io.Serializable;
  * @description: 用户和角色关系表
  */
 @Data
-@TableName("ums_user_permission_relation")
+@TableName("ums_user_role_relation")
 public class UserRoleRelation implements Serializable {
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Long ID;
 
-    private Long adminId;
+    private Long USERID;
 
-    private Long roleId;
+    private Long ROLEID;
 
     private static final long serialVersionUID = 1L;
 
