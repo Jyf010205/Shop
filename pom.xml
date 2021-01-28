@@ -11,7 +11,7 @@
     <modules>
         <module>shop-common</module>
         <module>shop-system</module>
-        <module>shop-goods</module>
+        <module>shop-product</module>
         <module>shop-personal</module>
         <module>shop-gateway</module>
     </modules>

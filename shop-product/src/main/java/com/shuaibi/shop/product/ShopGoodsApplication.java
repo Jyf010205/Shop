@@ -1,5 +1,6 @@
-package com.shuaibi.shop.goods;
+package com.shuaibi.shop.product;
 
+import com.shuaibi.shop.common.annotation.EnableRedisHandler;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import com.shuaibi.shop.common.utils.SpringContextHolder;
 import org.mybatis.spring.annotation.MapperScan;
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 文件描述
@@ -25,8 +27,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * Copyright © 2021 Hundsun Technologies Inc. All Rights Reserved
  **/
 @EnableAsync
+@EnableRedisHandler
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+        org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class
+})
+@EnableTransactionManagement
 @MapperScan("com.shuaibi.shop.common.mapper")
 public class ShopGoodsApplication {
 
