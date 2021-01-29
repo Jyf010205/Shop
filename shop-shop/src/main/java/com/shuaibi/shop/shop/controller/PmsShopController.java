@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -31,10 +32,26 @@ public class PmsShopController {
     @Autowired
     IPmsShopService pmsShopService;
 
+    @GetMapping
+    @ApiOperation("获取店铺列表")
+    public CommonResult<List<PmsShop>> getShopList(@ApiIgnore @UserId String userId){
+        return CommonResult.success(pmsShopService.pmsShopService(userId),"查询成功");
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("获取店铺信息")
+    public CommonResult<PmsShop> getShop(@PathVariable Long id){
+        Optional<PmsShop> shop = Optional.ofNullable(pmsShopService.getById(id));
+        if (!shop.isPresent()){
+            Asserts.fail("店铺不存在");
+        }
+        return CommonResult.success(shop.get(),"获取店铺信息成功");
+    }
+
     @PostMapping
     @ApiOperation("创建店铺")
     public CommonResult<PmsShop> create(@RequestBody CreateShopRequest request,
-                               @ApiIgnore @UserId String userId){
+                                        @ApiIgnore @UserId String userId){
         Optional<PmsShop> shop = pmsShopService.createShop(request, userId);
         if (!shop.isPresent()){
             Asserts.fail("创建店铺失败");
@@ -44,8 +61,8 @@ public class PmsShopController {
 
     @PutMapping
     @ApiOperation("修改店铺")
-    public CommonResult update(@RequestBody UpdateShopRequest request,
-                               @ApiIgnore @UserId String userId){
+    public CommonResult<PmsShop> update(@RequestBody UpdateShopRequest request,
+                                        @ApiIgnore @UserId String userId){
         Optional<PmsShop> shop = pmsShopService.updateShop(request,userId);
         if (!shop.isPresent()){
             Asserts.fail("修改店铺失败");

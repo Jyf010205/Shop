@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.shuaibi.shop.shop.entity.request.CreateShopRequest;
 import com.shuaibi.shop.shop.entity.request.UpdateShopRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,6 +17,8 @@ import java.util.Optional;
  * @since 2021-01-29
  */
 public interface IPmsShopService extends IService<PmsShop> {
+
+    List<PmsShop> pmsShopService(String userId);
 
     Optional<PmsShop> createShop(CreateShopRequest request, String userId);
 

@@ -32,7 +32,7 @@ public class ReceiveAddressServiceImpl extends ServiceImpl<ReceiveAddressMapper,
         address.setUserId(Long.valueOf(userId));
         //添加的第一个收货地址为默认收货地址
         address.setDefaultStatus((list(new LambdaQueryWrapper<ReceiveAddress>().eq(ReceiveAddress::getUserId,userId)).size() == 0));
-        return save(address);
+        return this.save(address);
     }
 
     /**
@@ -46,7 +46,7 @@ public class ReceiveAddressServiceImpl extends ServiceImpl<ReceiveAddressMapper,
         if (!StrUtil.equals(getById(id).getUserId().toString(),userId)){
             Asserts.fail("只能修改自己的收货地址");
         }
-        update(new LambdaUpdateWrapper<ReceiveAddress>().set(ReceiveAddress::getDefaultStatus,false).eq(ReceiveAddress::getUserId,userId));
-        return update(new LambdaUpdateWrapper<ReceiveAddress>().set(ReceiveAddress::getDefaultStatus,true).eq(ReceiveAddress::getId,id));
+        this.update(new LambdaUpdateWrapper<ReceiveAddress>().set(ReceiveAddress::getDefaultStatus,false).eq(ReceiveAddress::getUserId,userId));
+        return this.update(new LambdaUpdateWrapper<ReceiveAddress>().set(ReceiveAddress::getDefaultStatus,true).eq(ReceiveAddress::getId,id));
     }
 }

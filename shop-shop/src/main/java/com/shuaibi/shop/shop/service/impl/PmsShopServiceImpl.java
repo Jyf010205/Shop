@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,6 +34,16 @@ public class PmsShopServiceImpl extends ServiceImpl<PmsShopMapper, PmsShop> impl
     private SnowflakeIdWorker shopSnowflakeIdWorker;
 
     /**
+     * 获取店铺列表
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<PmsShop> pmsShopService(String userId) {
+        return list(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopUserId,userId));
+    }
+
+    /**
      * 创建店铺
      * @param request
      * @param userId
@@ -40,16 +51,20 @@ public class PmsShopServiceImpl extends ServiceImpl<PmsShopMapper, PmsShop> impl
      */
     @Override
     public Optional<PmsShop> createShop(CreateShopRequest request, String userId) {
-        Optional<PmsShop> existShop = Optional.ofNullable(getOne(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopName, request.getShopName())));
+        Optional<PmsShop> existShop = Optional.ofNullable(this.getOne(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopName, request.getShopName())));
         if (existShop.isPresent()){
             Asserts.fail("店铺名已存在");
+        }
+        List<PmsShop> PmsShopList = this.list(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopUserId, userId));
+        if (PmsShopList.size() >= 5){
+            Asserts.fail("每人只能创建5个店铺，您已超过限制");
         }
         PmsShop pmsShop = new PmsShop();
         BeanUtils.copyProperties(request,pmsShop);
         pmsShop.setShopUserId(Long.parseLong(userId));
         pmsShop.setShopId(shopSnowflakeIdWorker.nextId());
         pmsShop.setOpenStatus(true);
-        save(pmsShop);
+        this.save(pmsShop);
         return Optional.of(pmsShop);
     }
 
@@ -68,6 +83,6 @@ public class PmsShopServiceImpl extends ServiceImpl<PmsShopMapper, PmsShop> impl
                 .set(PmsShop::getShopName, request.getShopName())
                 .set(PmsShop::getShopDescription, request.getShopDescription())
                 .eq(PmsShop::getShopId, request.getShopId()));
-        return Optional.ofNullable(getOne(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopId,request.getShopId())));
+        return Optional.ofNullable(this.getOne(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopId,request.getShopId())));
     }
 }
