@@ -1,14 +1,16 @@
 package com.shuaibi.shop.common.entity.table;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -30,6 +32,7 @@ public class PmsShop implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "店铺ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @TableField("SHOP_ID")
     private Long shopId;
 
@@ -42,6 +45,7 @@ public class PmsShop implements Serializable {
     private String shopDescription;
 
     @ApiModelProperty(value = "店主用户ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @TableField("SHOP_USER_ID")
     private Long shopUserId;
 
@@ -59,7 +63,7 @@ public class PmsShop implements Serializable {
 
     @ApiModelProperty(value = "开启状态：0->关闭；1->开启")
     @TableField("OPEN_STATUS")
-    private Integer openStatus;
+    private Boolean openStatus;
 
 
 }

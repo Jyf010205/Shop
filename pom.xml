@@ -14,6 +14,7 @@
         <module>shop-product</module>
         <module>shop-personal</module>
         <module>shop-gateway</module>
+        <module>shop-shop</module>
     </modules>
 
     <name>ShuaiBiShop</name>

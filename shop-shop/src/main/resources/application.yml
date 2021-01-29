@@ -1,13 +1,25 @@
 server:
-  port: 18082
+  port: 18083
 
 spring:
   application:
-    name: Shop-Product
+    name: Shop-shop
   cloud:
     nacos:
       discovery:
         server-addr: 121.5.40.72:8848
+  redis:
+    database: 0
+    host: 121.5.40.72
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 8
+        max-idle: 500
+        max-active: 2000
+        max-wait: 10000
+    timeout: 5000
+    password: 123456
   datasource:
     dynamic:
       hikari:
@@ -28,9 +40,16 @@ spring:
 
 mybatis-plus:
   type-aliases-package: com.shuaibi.shop.common.entity.table
+  type-enums-package: com.shuaibi.shop.common.entity.enums
   mapper-locations: classpath:mapper/*.xml
   configuration:
     jdbc-type-for-null: null
   global-config:
-    banner: true
+    banner: false
+
+# 自定义jwt key
+jwt:
+  secret:  shuaiBi #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+
 

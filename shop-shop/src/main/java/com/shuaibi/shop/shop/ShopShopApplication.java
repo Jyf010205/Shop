@@ -1,7 +1,8 @@
-package com.shuaibi.shop.system;
+package com.shuaibi.shop.shop;
 
-import com.shuaibi.shop.common.annotation.EnableMybatisPageHandler;
 import com.shuaibi.shop.common.annotation.EnableRedisHandler;
+import com.shuaibi.shop.common.config.WebConfig;
+import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import com.shuaibi.shop.common.utils.SpringContextHolder;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -11,23 +12,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
-
 /**
  * @author: jianyufeng
- * @date: 2021/1/8 15:50
- * @description:
+ * @date: 2021/1/20 21:31
+ * @description: 禁用SpringSecurity
  */
 @EnableAsync
 @EnableRedisHandler
 @EnableDiscoveryClient
-@SpringBootApplication
-@EnableMybatisPageHandler
+@SpringBootApplication(exclude = {
+        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+        org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class
+})
 @EnableTransactionManagement
 @MapperScan("com.shuaibi.shop.common.mapper")
-public class ShopSystemApplication {
+public class ShopShopApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ShopSystemApplication.class, args);
+        SpringApplication.run(ShopShopApplication.class, args);
     }
 
     /**
@@ -37,5 +38,15 @@ public class ShopSystemApplication {
     @Bean
     public SpringContextHolder springContextHolder() {
         return new SpringContextHolder();
+    }
+
+    @Bean
+    public WebConfig getWebConfig(){
+        return new WebConfig();
+    }
+
+    @Bean
+    public JwtTokenUtil jwtTokenUtil(){
+        return new JwtTokenUtil();
     }
 }
