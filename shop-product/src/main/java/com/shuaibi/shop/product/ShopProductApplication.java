@@ -35,10 +35,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 @EnableTransactionManagement
 @MapperScan("com.shuaibi.shop.common.mapper")
-public class ShopGoodsApplication {
+public class ShopProductApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShopGoodsApplication.class, args);
+        SpringApplication.run(ShopProductApplication.class, args);
     }
 
     /**
