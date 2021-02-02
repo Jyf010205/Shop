@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: Shop-Gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 121.5.40.72:8848
+      config:
+        server-addr: 121.5.40.72:8848
+        group: DEFAULT_GROUP
+        prefix: shop-gateway
+        file-extension: yaml

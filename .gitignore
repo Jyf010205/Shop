@@ -19,6 +19,7 @@ ShuaiBiShop.iml
 /shop-gateway/.rebel.xml.bak
 /shop-personal/.rebel.xml.bak
 /shop-shop/.rebel.xml.bak
+/shop-common/.rebel.xml.bak
 /shop-common/src/main/resources/rebel.xml
 /shop-product/src/main/resources/rebel.xml
 /shop-shop/src/main/resources/rebel.xml
