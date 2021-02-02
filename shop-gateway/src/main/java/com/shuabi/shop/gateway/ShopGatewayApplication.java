@@ -1,9 +1,11 @@
-package com.shuabi.shop.geteway;
+package com.shuabi.shop.gateway;
 
 
+import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
 
 /**
  * 文件描述
@@ -21,11 +23,15 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * <p>
  *
  **/
-
-@SpringBootApplication
 @EnableDiscoveryClient
-public class GatewayNacosConfigApplication {
+@SpringBootApplication
+public class ShopGatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(GatewayNacosConfigApplication.class, args);
+        SpringApplication.run(ShopGatewayApplication.class, args);
+    }
+
+    @Bean
+    public JwtTokenUtil jwtTokenUtil(){
+        return new JwtTokenUtil();
     }
 }

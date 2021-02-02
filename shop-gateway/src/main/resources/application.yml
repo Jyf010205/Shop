@@ -2,7 +2,7 @@ server:
   port: 9000
 spring:
   application:
-    name: gateway
+    name: Shop-Gateway
   cloud:
     gateway:
       discovery:
@@ -12,16 +12,23 @@ spring:
         - id: Shop-System
           uri: lb://Shop-System
           predicates:
-            - Path=/Shop-System/*
-        - id: Shop-Goods
-          uri: lb://Shop-Goods
+            - Path=/system/**
+        - id: Shop-Product
+          uri: lb://Shop-Product
           predicates:
-            - Path=/Shop-Goods/*
+            - Path=/product/**
         - id: Shop-Personal
           uri: lb://Shop-Personal
           predicates:
-            - Path=/Shop-Personal/*
+            - Path=/personal/**
+      default-filters:
+        - StripPrefix=1
     #service-consumer
     nacos:
       discovery:
         server-addr: 121.5.40.72:8848 #注册中心地址
+
+# 自定义jwt key
+jwt:
+  secret:  shuaiBi #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)

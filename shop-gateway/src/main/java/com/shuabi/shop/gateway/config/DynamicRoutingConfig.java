@@ -1,4 +1,4 @@
-package com.shuabi.shop.geteway.config;
+package com.shuabi.shop.gateway.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -7,9 +7,9 @@ import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.shuabi.shop.geteway.entity.FilterEntity;
-import com.shuabi.shop.geteway.entity.PredicateEntity;
-import com.shuabi.shop.geteway.entity.RouteEntity;
+import com.shuabi.shop.gateway.entity.FilterEntity;
+import com.shuabi.shop.gateway.entity.PredicateEntity;
+import com.shuabi.shop.gateway.entity.RouteEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
