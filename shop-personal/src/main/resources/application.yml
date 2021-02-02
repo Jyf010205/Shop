@@ -46,9 +46,3 @@ mybatis-plus:
     jdbc-type-for-null: null
   global-config:
     banner: false
-
-# 自定义jwt key
-jwt:
-  secret:  shuaiBi #JWT加解密使用的密钥
-  expiration: 604800 #JWT的超期限时间(60*60*24)
-

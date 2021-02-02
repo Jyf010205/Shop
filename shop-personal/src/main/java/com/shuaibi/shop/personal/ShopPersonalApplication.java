@@ -2,7 +2,6 @@ package com.shuaibi.shop.personal;
 
 import com.shuaibi.shop.common.annotation.EnableRedisHandler;
 import com.shuaibi.shop.common.config.WebConfig;
-import com.shuaibi.shop.common.utils.JwtTokenUtil;
 import com.shuaibi.shop.common.utils.SpringContextHolder;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -45,11 +44,6 @@ public class ShopPersonalApplication {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public JwtTokenUtil jwtTokenUtil(){
-        return new JwtTokenUtil();
     }
 
     @Bean

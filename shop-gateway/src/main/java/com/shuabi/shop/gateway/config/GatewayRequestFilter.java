@@ -58,7 +58,9 @@ public class GatewayRequestFilter implements GlobalFilter {
             Long userId = jwtTokenUtil.getUserIdFromToken(authToken);
             //解析token成功
             if (userId != null && !jwtTokenUtil.isTokenExpired(authToken)){
-                return chain.filter(exchange);
+                //把UserId放入请求头中
+                ServerHttpRequest newRequest = exchange.getRequest().mutate().header("UserId", userId.toString()).build();
+                return chain.filter(exchange.mutate().request(newRequest).build());
             }
         }
         //返回错误结果

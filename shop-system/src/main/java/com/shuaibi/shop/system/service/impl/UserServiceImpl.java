@@ -1,17 +1,17 @@
 package com.shuaibi.shop.system.service.impl;
 
 import cn.hutool.json.JSONArray;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shuaibi.shop.system.entity.request.FindUserListRequest;
-import com.shuaibi.shop.common.mapper.UserMapper;
-import com.shuaibi.shop.system.service.IUserService;
 import com.shuaibi.shop.common.entity.BatchRequest;
 import com.shuaibi.shop.common.entity.table.User;
+import com.shuaibi.shop.common.mapper.UserMapper;
 import com.shuaibi.shop.common.utils.Asserts;
+import com.shuaibi.shop.system.entity.request.FindUserListRequest;
+import com.shuaibi.shop.system.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -38,9 +38,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public IPage<User> findUserList(FindUserListRequest request) {
         IPage<User> page = new Page<>(request.getPageNum(), request.getPageSize());
-        return this.getBaseMapper().selectPage(page, new QueryWrapper<User>()
-                .like(Optional.ofNullable(request.getUsername()).isPresent(), "username", request.getUsername())
-                .orderBy(Optional.ofNullable(request.getField()).isPresent(), request.getOrder(), request.getField()));
+        return this.getBaseMapper().selectPage(page, new LambdaQueryWrapper<User>()
+                .like(Optional.ofNullable(request.getUsername()).isPresent(), User::getUsername, request.getUsername()));
     }
 
     /**

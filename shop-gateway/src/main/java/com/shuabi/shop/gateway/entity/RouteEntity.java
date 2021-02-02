@@ -1,4 +1,4 @@
-package com.shuabi.shop.geteway.entity;
+package com.shuabi.shop.gateway.entity;
 
 import lombok.Data;
 
