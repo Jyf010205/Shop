@@ -29,7 +29,7 @@ public class AuthController {
     private ISystemUserService systemUserService;
 
     /**
-     * 专供Swagger生成接口使用
+     * 专供Swagger生成接口使用 请求头中
      */
     @ApiOperation(value = "普通登录")
     @PostMapping(value = "/login")

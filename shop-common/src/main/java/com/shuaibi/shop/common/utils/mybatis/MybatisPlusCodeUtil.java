@@ -61,9 +61,9 @@ public class MybatisPlusCodeUtil {
         String projectPath = System.getProperty("user.dir");
         System.out.println("项目的目录为：" + projectPath);
         /*************************生成时修改目标路径***********************************/
-        gc.setOutputDir(projectPath + "/shop-personal/src/main/java");
+        gc.setOutputDir(projectPath + "/shop-shop/src/main/java");
         /*************************创建人***********************************/
-        gc.setAuthor("syq");
+        gc.setAuthor("jianyufeng");
         gc.setOpen(false);
         gc.setSwagger2(true);
         mpg.setGlobalConfig(gc);
@@ -84,9 +84,9 @@ public class MybatisPlusCodeUtil {
         pc.setEntity("common.entity.table");
         pc.setMapper("common.mapper");
         /*************************生成时修改模块包路径***********************************/
-        pc.setController("personal.controller");
-        pc.setServiceImpl("personal.service.impl");
-        pc.setService("personal.service");
+        pc.setController("shop.controller");
+        pc.setServiceImpl("shop.service.impl");
+        pc.setService("shop.service");
         mpg.setPackageInfo(pc);
 
 

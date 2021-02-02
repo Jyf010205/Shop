@@ -11,10 +11,12 @@ import com.shuaibi.shop.shop.entity.request.CreateShopRequest;
 import com.shuaibi.shop.shop.entity.request.UpdateShopRequest;
 import com.shuaibi.shop.shop.service.IPmsShopService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +29,9 @@ import java.util.Optional;
  * @author jianyufeng
  * @since 2021-01-29
  */
+@Slf4j
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class PmsShopServiceImpl extends ServiceImpl<PmsShopMapper, PmsShop> implements IPmsShopService {
     @Autowired
     @Qualifier("shopSnowflakeIdWorker")

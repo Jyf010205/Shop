@@ -54,7 +54,7 @@ public class ReceiveAddress implements Serializable {
 
     @ApiModelProperty(value = "邮政编码")
     @TableField("POST_CODE")
-    private Long postCode;
+    private Integer postCode;
 
     @ApiModelProperty(value = "省份/直辖市")
     @TableField("PROVINCE")

@@ -11,8 +11,21 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class SnowflakeIdWorkerConfig {
+    /**
+     * 商城ID
+     * @return
+     */
     @Bean("shopSnowflakeIdWorker")
     public SnowflakeIdWorker shopSnowflakeIdWorker(){
         return new SnowflakeIdWorker(3,1);
+    }
+
+    /**
+     * 运输模板ID
+     * @return
+     */
+    @Bean("freightSnowflakeIdWorker")
+    public SnowflakeIdWorker freightSnowflakeIdWorker(){
+        return new SnowflakeIdWorker(3,2);
     }
 }

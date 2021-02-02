@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class PmsShopController {
 
     @PostMapping
     @ApiOperation("创建店铺")
-    public CommonResult<PmsShop> create(@RequestBody CreateShopRequest request,
+    public CommonResult<PmsShop> create(@Valid @RequestBody CreateShopRequest request,
                                         @ApiIgnore @UserId String userId){
         Optional<PmsShop> shop = pmsShopService.createShop(request, userId);
         if (!shop.isPresent()){
@@ -61,7 +62,7 @@ public class PmsShopController {
 
     @PutMapping
     @ApiOperation("修改店铺")
-    public CommonResult<PmsShop> update(@RequestBody UpdateShopRequest request,
+    public CommonResult<PmsShop> update(@Valid @RequestBody UpdateShopRequest request,
                                         @ApiIgnore @UserId String userId){
         Optional<PmsShop> shop = pmsShopService.updateShop(request,userId);
         if (!shop.isPresent()){

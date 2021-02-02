@@ -51,7 +51,7 @@ public class PmsShop implements Serializable {
 
     @ApiModelProperty(value = "店铺分数")
     @TableField("SHOP_SCORE")
-    private Long shopScore;
+    private Integer shopScore;
 
     @ApiModelProperty(value = "店铺星级")
     @TableField("SHOP_STAR")
@@ -59,7 +59,7 @@ public class PmsShop implements Serializable {
 
     @ApiModelProperty(value = "店铺销量")
     @TableField("SHOP_SALES")
-    private Long shopSales;
+    private Integer shopSales;
 
     @ApiModelProperty(value = "开启状态：0->关闭；1->开启")
     @TableField("OPEN_STATUS")
