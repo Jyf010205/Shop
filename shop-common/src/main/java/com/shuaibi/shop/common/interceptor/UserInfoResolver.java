@@ -29,6 +29,6 @@ public class UserInfoResolver implements HandlerMethodArgumentResolver {
         JwtTokenUtil jwtTokenUtil = SpringContextHolder.getBean(JwtTokenUtil.class);
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         String token = request.getHeader(JwtConstant.tokenHeader).replace(JwtConstant.tokenHead,"");
-        return jwtTokenUtil.getUserIdFromToken(token);
+        return jwtTokenUtil.getUserIdFromToken(token).toString();
     }
 }

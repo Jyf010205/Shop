@@ -78,7 +78,7 @@ public class JwtTokenUtil {
     /**
      * 从token中获取UserId
      */
-    public String getUserIdFromToken(String token) {
+    public Long getUserIdFromToken(String token) {
         Long userId;
         try {
             Claims claims = getClaimsFromToken(token);
@@ -86,7 +86,7 @@ public class JwtTokenUtil {
         } catch (Exception e) {
             userId = null;
         }
-        return userId.toString();
+        return userId;
     }
 
     /**

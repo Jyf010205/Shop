@@ -55,7 +55,7 @@ public class GatewayRequestFilter implements GlobalFilter {
         String authHeader = request.getHeaders().getFirst(JwtConstant.tokenHeader);
         if (authHeader != null && authHeader.startsWith(JwtConstant.tokenHead)){
             String authToken = authHeader.substring(JwtConstant.tokenHead.length());
-            String userId = jwtTokenUtil.getUserIdFromToken(authToken);
+            Long userId = jwtTokenUtil.getUserIdFromToken(authToken);
             //解析token成功
             if (userId != null && !jwtTokenUtil.isTokenExpired(authToken)){
                 return chain.filter(exchange);
