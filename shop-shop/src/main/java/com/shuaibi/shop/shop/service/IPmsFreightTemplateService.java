@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.shuaibi.shop.common.entity.table.PmsFreightTemplate;
 import com.shuaibi.shop.shop.entity.request.CreateFreightTemplateRequest;
 import com.shuaibi.shop.shop.entity.request.GetFreightTemplateRequest;
+import com.shuaibi.shop.shop.entity.request.UpdateFreightTemplateRequest;
 
 /**
  * <p>
@@ -20,7 +21,9 @@ public interface IPmsFreightTemplateService extends IService<PmsFreightTemplate>
 
     PmsFreightTemplate getFreightTemplate(Long id);
 
-    Boolean create(CreateFreightTemplateRequest request);
+    Boolean createTemplate(CreateFreightTemplateRequest request);
 
-    boolean delete(Long id);
+    Boolean updateTemplate(UpdateFreightTemplateRequest request);
+
+    Boolean deleteTemplate(Long id);
 }

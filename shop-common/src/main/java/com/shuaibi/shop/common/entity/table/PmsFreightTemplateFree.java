@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -36,21 +35,19 @@ public class PmsFreightTemplateFree implements Serializable {
 
     @ApiModelProperty(value = "模板ID")
     @TableField("FREIGHT_TEMPLATE_ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long freightTemplateId;
 
     @ApiModelProperty(value = "包邮城市IDS")
     @TableField("FREE_CITY_IDS")
-    @NotBlank(message = "包邮城市不能为空")
     private String freeCityIds;
 
     @ApiModelProperty(value = "包邮件数")
     @TableField("FREE_COUNT")
-    @NotNull(message = "包邮件数不能为空")
     private Integer freeCount;
 
     @ApiModelProperty(value = "包邮金额")
     @TableField("FREE_PRICE")
-    @NotNull(message = "包邮金额不能为空")
     private Double freePrice;
 
 

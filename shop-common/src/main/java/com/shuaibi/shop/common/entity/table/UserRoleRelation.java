@@ -16,7 +16,7 @@ import java.io.Serializable;
 @TableName("ums_user_role_relation")
 public class UserRoleRelation implements Serializable {
     @TableId(type = IdType.AUTO)
-    private Long ID;
+    private Long id;
 
     private Long USERID;
 

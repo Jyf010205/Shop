@@ -3,6 +3,7 @@ package com.shuaibi.shop.common.entity.table;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class PmsFreightTemplateCharge implements Serializable {
 
     @ApiModelProperty(value = "模板ID")
     @TableField("FREIGHT_TEMPLATE_ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long freightTemplateId;
 
     @ApiModelProperty(value = "收费城市IDS")
