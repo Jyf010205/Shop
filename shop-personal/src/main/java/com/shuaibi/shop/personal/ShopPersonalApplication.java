@@ -1,5 +1,6 @@
 package com.shuaibi.shop.personal;
 
+import com.shuaibi.shop.common.annotation.EnableMybatisPageHandler;
 import com.shuaibi.shop.common.annotation.EnableRedisHandler;
 import com.shuaibi.shop.common.config.WebConfig;
 import com.shuaibi.shop.common.utils.SpringContextHolder;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
         org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class
 })
+@EnableMybatisPageHandler
 @EnableTransactionManagement
 @MapperScan("com.shuaibi.shop.common.mapper")
 public class ShopPersonalApplication {
