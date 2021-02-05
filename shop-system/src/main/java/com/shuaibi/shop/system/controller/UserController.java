@@ -1,12 +1,13 @@
 package com.shuaibi.shop.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.shuaibi.shop.system.entity.request.FindUserListRequest;
-import com.shuaibi.shop.system.service.IUserService;
 import com.shuaibi.shop.common.entity.BatchRequest;
 import com.shuaibi.shop.common.entity.result.CommonResult;
 import com.shuaibi.shop.common.entity.table.User;
 import com.shuaibi.shop.common.utils.Asserts;
+import com.shuaibi.shop.system.entity.request.FindUserListRequest;
+import com.shuaibi.shop.system.entity.request.InsertUserRequest;
+import com.shuaibi.shop.system.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,17 @@ public class UserController {
             Asserts.fail("查询失败");
         }
         return CommonResult.success(user.get(),"查询成功");
+    }
+
+    @PostMapping
+    @ApiOperation("新增用户")
+    @PreAuthorize("hasAuthority('user:insert')")
+    public CommonResult<User> create(@Valid @RequestBody InsertUserRequest request){
+        Optional<User> user = userService.createUser(request);
+        if (!user.isPresent()){
+            Asserts.fail("创建用户失败");
+        }
+        return CommonResult.success(user.get(),"创建用户成功");
     }
 
 

@@ -11,7 +11,7 @@
 
     <artifactId>shop-shop</artifactId>
     <name>Shop-Shop</name>
-    <description>店铺模块</description>
+    <description>店铺管理端模块</description>
 
     <dependencies>
         <dependency>

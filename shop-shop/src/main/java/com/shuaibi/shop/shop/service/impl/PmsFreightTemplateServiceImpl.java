@@ -75,14 +75,14 @@ public class PmsFreightTemplateServiceImpl extends ServiceImpl<PmsFreightTemplat
      * @return
      */
     @Override
-    public PmsFreightTemplate getFreightTemplate(Long id) {
+    public Optional<PmsFreightTemplate> getFreightTemplate(Long id) {
         PmsFreightTemplate pmsFreightTemplate = this.getById(id);
         if (pmsFreightTemplate == null) {
             Asserts.fail("查询失败");
         }
         pmsFreightTemplate.setFreightTemplateFreeList(pmsFreightTemplateFreeService.list(new LambdaQueryWrapper<PmsFreightTemplateFree>().eq(PmsFreightTemplateFree::getFreightTemplateId,pmsFreightTemplate.getFreightTemplateId())));
         pmsFreightTemplate.setFreightTemplateChargeList(pmsFreightTemplateChargeService.list(new LambdaQueryWrapper<PmsFreightTemplateCharge>().eq(PmsFreightTemplateCharge::getFreightTemplateId,pmsFreightTemplate.getFreightTemplateId())));
-        return pmsFreightTemplate;
+        return Optional.of(pmsFreightTemplate);
     }
 
     /**

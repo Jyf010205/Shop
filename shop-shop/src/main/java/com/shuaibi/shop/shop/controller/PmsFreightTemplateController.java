@@ -41,7 +41,7 @@ public class PmsFreightTemplateController {
     @GetMapping("/{id}")
     @ApiOperation("查询运费模板")
     public CommonResult<PmsFreightTemplate> getFreightTemplate(@PathVariable Long id){
-        Optional<PmsFreightTemplate> pmsFreightTemplate = Optional.ofNullable(pmsFreightTemplateService.getFreightTemplate(id));
+        Optional<PmsFreightTemplate> pmsFreightTemplate = pmsFreightTemplateService.getFreightTemplate(id);
         if (!pmsFreightTemplate.isPresent()) {
             Asserts.fail("查询失败");
         }
