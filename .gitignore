@@ -26,3 +26,4 @@ ShuaiBiShop.iml
 /shop-gateway/src/main/resources/rebel.xml
 /shop-personal/src/main/resources/rebel.xml
 /shop-system/src/main/resources/rebel.xml
+/shop-common/src/main/java/com/shuaibi/shop/common/utils/mybatis/MybatisPlusCodeUtil.java

@@ -28,4 +28,13 @@ public class SnowflakeIdWorkerConfig {
     public SnowflakeIdWorker freightSnowflakeIdWorker(){
         return new SnowflakeIdWorker(3,2);
     }
+
+    /**
+     * 商品导入ID
+     * @return
+     */
+    @Bean("productSnowflakeIdWorker")
+    public SnowflakeIdWorker productSnowflakeIdWorker(){
+        return new SnowflakeIdWorker(3,3);
+    }
 }
