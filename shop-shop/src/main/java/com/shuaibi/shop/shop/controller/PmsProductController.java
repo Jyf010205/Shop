@@ -2,15 +2,18 @@ package com.shuaibi.shop.shop.controller;
 
 
 import com.shuaibi.shop.common.entity.result.CommonResult;
-import com.shuaibi.shop.common.entity.table.PmsProduct;
-import com.shuaibi.shop.shop.entity.request.InputProduct;
+import com.shuaibi.shop.common.utils.Asserts;
+import com.shuaibi.shop.shop.entity.request.CreateProductRequest;
 import com.shuaibi.shop.shop.service.IPmsProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -21,20 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-02-04
  */
 @RestController
-@RequestMapping("/pmsProduct")
-@Api(tags = "商品概览")
+@RequestMapping("/product")
+@Api(tags = "商品Api")
 public class PmsProductController {
 
     @Autowired
-    IPmsProductService iPmsProductService;
+    IPmsProductService PmsProductService;
 
-
-
-    @GetMapping
+    @PostMapping
     @ApiOperation("录入商品信息")
-    public CommonResult<PmsProduct> inputProduct(InputProduct inputProduct){
-        iPmsProductService.inputProduct(inputProduct);
-        return CommonResult.success(null,"商品信息查询成功");
+    public CommonResult create(@Valid @RequestBody CreateProductRequest request){
+        Boolean status = PmsProductService.createPmsProduct(request);
+        if (!status){
+            Asserts.fail("商品录入失败");
+        }
+        return CommonResult.success(request,"商品录入成功");
     }
 
 }

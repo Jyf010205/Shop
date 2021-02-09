@@ -1,14 +1,16 @@
 package com.shuaibi.shop.common.entity.table;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -27,9 +29,11 @@ public class PmsProductAttribute implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "ATTRIBUTE_ID", type = IdType.AUTO)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long attributeId;
 
     @ApiModelProperty(value = "类目ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @TableField("CATEGORY_ID")
     private Long categoryId;
 

@@ -51,23 +51,23 @@ public class PmsShopController {
 
     @PostMapping
     @ApiOperation("创建店铺")
-    public CommonResult<PmsShop> create(@Valid @RequestBody CreateShopRequest request,
+    public CommonResult create(@Valid @RequestBody CreateShopRequest request,
                                         @ApiIgnore @UserId String userId){
-        Optional<PmsShop> shop = pmsShopService.createShop(request, userId);
-        if (!shop.isPresent()){
+        Boolean status = pmsShopService.createShop(request, userId);
+        if (!status){
             Asserts.fail("创建店铺失败");
         }
-        return CommonResult.success(shop.get(),"创建店铺成功");
+        return CommonResult.success(request,"创建店铺成功");
     }
 
     @PutMapping
     @ApiOperation("修改店铺")
-    public CommonResult<PmsShop> update(@Valid @RequestBody UpdateShopRequest request,
+    public CommonResult update(@Valid @RequestBody UpdateShopRequest request,
                                         @ApiIgnore @UserId String userId){
-        Optional<PmsShop> shop = pmsShopService.updateShop(request,userId);
-        if (!shop.isPresent()){
+        Boolean status  = pmsShopService.updateShop(request,userId);
+        if (!status){
             Asserts.fail("修改店铺失败");
         }
-        return CommonResult.success(shop.get(),"修改店铺成功");
+        return CommonResult.success(request,"修改店铺成功");
     }
 }

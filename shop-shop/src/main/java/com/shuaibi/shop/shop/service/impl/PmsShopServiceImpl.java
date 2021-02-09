@@ -54,7 +54,7 @@ public class PmsShopServiceImpl extends ServiceImpl<PmsShopMapper, PmsShop> impl
      * @return
      */
     @Override
-    public Optional<PmsShop> createShop(CreateShopRequest request, String userId) {
+    public Boolean createShop(CreateShopRequest request, String userId) {
         Optional<PmsShop> existShop = Optional.ofNullable(this.getOne(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopName, request.getShopName())));
         if (existShop.isPresent()){
             Asserts.fail("店铺名已存在");
@@ -68,8 +68,7 @@ public class PmsShopServiceImpl extends ServiceImpl<PmsShopMapper, PmsShop> impl
         pmsShop.setShopUserId(Long.parseLong(userId));
         pmsShop.setShopId(shopSnowflakeIdWorker.nextId());
         pmsShop.setOpenStatus(true);
-        this.save(pmsShop);
-        return Optional.of(pmsShop);
+        return this.save(pmsShop);
     }
 
     /**
@@ -79,14 +78,13 @@ public class PmsShopServiceImpl extends ServiceImpl<PmsShopMapper, PmsShop> impl
      * @return
      */
     @Override
-    public Optional<PmsShop> updateShop(UpdateShopRequest request, String userId) {
+    public Boolean updateShop(UpdateShopRequest request, String userId) {
         if (!StrUtil.equals(request.getShopUserId().toString(),userId)){
             Asserts.fail("只能修改本店铺的信息");
         }
-        update(new LambdaUpdateWrapper<PmsShop>()
+        return this.update(new LambdaUpdateWrapper<PmsShop>()
                 .set(PmsShop::getShopName, request.getShopName())
                 .set(PmsShop::getShopDescription, request.getShopDescription())
                 .eq(PmsShop::getShopId, request.getShopId()));
-        return Optional.ofNullable(this.getOne(new LambdaQueryWrapper<PmsShop>().eq(PmsShop::getShopId,request.getShopId())));
     }
 }

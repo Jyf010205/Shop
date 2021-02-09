@@ -1,14 +1,15 @@
 package com.shuaibi.shop.common.entity.table;
 
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -31,27 +32,29 @@ public class PmsProductSku implements Serializable {
 
     @ApiModelProperty(value = "商品编号（规则：年份+商铺编号+5位流水号）")
     @TableField("PRODUCT_ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long productId;
 
     @ApiModelProperty(value = "不同规格商品ID")
     @TableField("SKU_ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long skuId;
 
     @ApiModelProperty(value = "销量")
     @TableField("SKU_SALES")
-    private Long skuSales;
+    private Integer skuSales;
 
     @ApiModelProperty(value = "售价")
     @TableField("SKU_PRICE")
-    private BigDecimal skuPrice;
+    private Double skuPrice;
 
     @ApiModelProperty(value = "库存")
     @TableField("SKU_STOCK")
-    private Long skuStock;
+    private Integer skuStock;
 
     @ApiModelProperty(value = "库存预警值")
     @TableField("SKU_LOW_STOCK")
-    private Long skuLowStock;
+    private Integer skuLowStock;
 
     @ApiModelProperty(value = "不同规格商品图片")
     @TableField("SKU_PICS")

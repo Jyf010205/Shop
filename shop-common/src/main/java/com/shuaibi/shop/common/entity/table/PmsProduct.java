@@ -42,8 +42,8 @@ public class PmsProduct implements Serializable {
     private String productName;
 
     @ApiModelProperty(value = "商品描述")
-    @TableField("PRODUCT_DESCRIPTOIN")
-    private String productDescriptoin;
+    @TableField("PRODUCT_DESCRIPTION")
+    private String productDescription;
 
     @ApiModelProperty(value = "商品类目")
     @TableField("PRODUCT_CATEGORY_ID")
@@ -106,5 +106,8 @@ public class PmsProduct implements Serializable {
     @TableField("FREIGHT_TEMPLATE_ID")
     private Long freightTemplateId;
 
+    @ApiModelProperty(value = "查询索引关键字")
+    @TableField("QUERY_INDEX")
+    private String queryIndex;
 
 }

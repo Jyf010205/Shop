@@ -2,13 +2,11 @@ package com.shuaibi.shop.system.service.impl;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.shuaibi.shop.system.entity.SmsCode;
-import com.shuaibi.shop.system.entity.request.RegisterRequest;
-import com.shuaibi.shop.system.service.ISystemUserService;
 import com.shuaibi.shop.common.constant.RedisKey;
 import com.shuaibi.shop.common.entity.SystemUserDetails;
 import com.shuaibi.shop.common.entity.enums.ChannelType;
@@ -18,7 +16,11 @@ import com.shuaibi.shop.common.entity.table.UserLoginLog;
 import com.shuaibi.shop.common.mapper.UserLoginLogMapper;
 import com.shuaibi.shop.common.mapper.UserMapper;
 import com.shuaibi.shop.common.mapper.UserRoleRelationMapper;
+import com.shuaibi.shop.common.utils.Asserts;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
+import com.shuaibi.shop.system.entity.SmsCode;
+import com.shuaibi.shop.system.entity.request.RegisterRequest;
+import com.shuaibi.shop.system.service.ISystemUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
@@ -74,10 +76,29 @@ public class SystemUserServiceImpl implements ISystemUserService {
      */
     @Override
     public Optional<User> register(RegisterRequest request) {
+        Long mobile = request.getMobile();
+        String code = request.getCode();
+        String smsCodeStr = (String) redisTemplate.opsForHash().get(RedisKey.SMS_CODE_KEY, mobile.toString());
+        SmsCode smsCode = JSONUtil.toBean(smsCodeStr, SmsCode.class);
+        try {
+            //校验短信验证码
+            if (smsCode == null){
+                Asserts.fail("验证码不存在，请重新发送！");
+            }else if (DateUtil.compare(new DateTime(),smsCode.getExpiredTime()) > 0){
+                Asserts.fail("验证码已过期，请重新发送！");
+            }else if (!StrUtil.equals(code,smsCode.getCode())){
+                Asserts.fail("验证码不正确！");
+            }
+        }finally {
+            //验证完毕，删除验证码
+            redisTemplate.opsForHash().delete(RedisKey.SMS_CODE_KEY,mobile.toString());
+        }
+
         User user = new User();
         BeanUtils.copyProperties(request, user);
         user.setUserId(snowflakeIdWorker.nextId());
         user.setRegisterTime(new DateTime());
+        user.setIcon("http://121.5.40.72:9000/shop/2021-02-05/default.png");
         user.setStatus(true);
         //查询是否有相同用户名的用户
         List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getUsername, user.getUsername()));

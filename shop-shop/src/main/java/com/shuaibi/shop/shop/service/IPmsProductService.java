@@ -2,7 +2,7 @@ package com.shuaibi.shop.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shuaibi.shop.common.entity.table.PmsProduct;
-import com.shuaibi.shop.shop.entity.request.InputProduct;
+import com.shuaibi.shop.shop.entity.request.CreateProductRequest;
 
 /**
  * <p>
@@ -14,7 +14,6 @@ import com.shuaibi.shop.shop.entity.request.InputProduct;
  */
 public interface IPmsProductService extends IService<PmsProduct> {
 
-
-    void inputProduct(InputProduct inputProduct);
+    Boolean createPmsProduct(CreateProductRequest createProductRequest);
 
 }

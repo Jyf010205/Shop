@@ -37,4 +37,13 @@ public class SnowflakeIdWorkerConfig {
     public SnowflakeIdWorker productSnowflakeIdWorker(){
         return new SnowflakeIdWorker(3,3);
     }
+
+    /**
+     * 商品Sku导入ID
+     * @return
+     */
+    @Bean("productSkuSnowflakeIdWorker")
+    public SnowflakeIdWorker productSkuSnowflakeIdWorker(){
+        return new SnowflakeIdWorker(3,4);
+    }
 }
