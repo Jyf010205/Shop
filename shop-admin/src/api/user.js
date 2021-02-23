@@ -1,20 +1,12 @@
-import { postAxios, getAxios } from '@/lib/http';
+import { get, post } from '@/utils/request'
 
-export const login = ({ userName, password }) => {
-  const data = {
-    userName,
+export function login (username, password) {
+  return post('/systemApi/admin/login', {
+    username,
     password
-  };
-  return postAxios('login', data);
-};
+  })
+}
 
-export const getUserInfo = (token) => {
-  let params = {
-    token
-  };
-  return getAxios('get_info', params);
-};
-
-export const logout = (token) => {
-  return postAxios('logout', {});
-};
+export function getInfo (token) {
+  return get('/systemApi/admin/authentication')
+}
