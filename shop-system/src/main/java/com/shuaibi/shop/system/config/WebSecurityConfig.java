@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //禁用缓存
                 .and().headers().cacheControl().disable()
+                //保护URL，需要用户登录
                 .and().authorizeRequests()
                 .antMatchers( // 允许对于网站静态资源的无授权访问
                         "/",

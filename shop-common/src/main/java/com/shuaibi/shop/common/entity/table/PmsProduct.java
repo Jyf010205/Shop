@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -110,4 +111,11 @@ public class PmsProduct implements Serializable {
     @TableField("QUERY_INDEX")
     private String queryIndex;
 
+    @ApiModelProperty(value = "属性列表")
+    @TableField(exist = false)
+    private List<PmsProductAttributeValue> productAttributeValueList;
+
+    @ApiModelProperty(value = "Sku商品列表")
+    @TableField(exist = false)
+    private List<PmsProductSku> productSkuList;
 }

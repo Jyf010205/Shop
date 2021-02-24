@@ -3,6 +3,8 @@ package com.shuaibi.shop.shop.service;
 import com.shuaibi.shop.common.entity.table.PmsProductAttributeValue;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 存储产品参数数据表 服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPmsProductAttributeValueService extends IService<PmsProductAttributeValue> {
 
+    List<PmsProductAttributeValue> getProductAttributeValueList(Long productId);
 }

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "店铺粉丝Api")
 public class PmsShopFansController {
     @Autowired
-    IPmsShopFansService pmsShopFansService;
+    private IPmsShopFansService pmsShopFansService;
 
     @GetMapping()
     @ApiOperation("获取粉丝列表")

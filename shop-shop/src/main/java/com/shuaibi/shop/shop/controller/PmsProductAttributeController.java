@@ -28,7 +28,7 @@ import java.util.List;
 @Api(tags = "商品属性Api")
 public class PmsProductAttributeController {
     @Autowired
-    IPmsProductAttributeService pmsProductAttributeService;
+    private IPmsProductAttributeService pmsProductAttributeService;
 
     @GetMapping
     @ApiOperation("查询相关类目的属性列表")

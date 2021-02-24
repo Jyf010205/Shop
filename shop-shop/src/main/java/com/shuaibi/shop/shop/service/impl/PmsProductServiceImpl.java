@@ -1,17 +1,19 @@
 package com.shuaibi.shop.shop.service.impl;
 
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shuaibi.shop.common.entity.table.PmsProduct;
 import com.shuaibi.shop.common.entity.table.PmsProductAttributeValue;
 import com.shuaibi.shop.common.entity.table.PmsProductSku;
 import com.shuaibi.shop.common.mapper.PmsProductMapper;
 import com.shuaibi.shop.common.utils.Asserts;
+import com.shuaibi.shop.common.utils.EmptyUtil;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
-import com.shuaibi.shop.shop.entity.request.CreateProductAttributeValueRequest;
-import com.shuaibi.shop.shop.entity.request.CreateProductRequest;
-import com.shuaibi.shop.shop.entity.request.CreateProductSkuRequest;
+import com.shuaibi.shop.shop.entity.request.*;
 import com.shuaibi.shop.shop.service.IPmsProductAttributeValueService;
 import com.shuaibi.shop.shop.service.IPmsProductService;
 import com.shuaibi.shop.shop.service.IPmsProductSkuService;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -48,6 +51,38 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     private IPmsProductSkuService pmsProductSkuService;
     @Autowired
     private IPmsProductAttributeValueService pmsProductAttributeValueService;
+
+    /**
+     * 查询商品列表
+     * @param request
+     * @return
+     */
+    @Override
+    public IPage<PmsProduct> getProductList(GetProductListRequest request) {
+        IPage<PmsProduct> page = new Page<>(request.getPageNum(), request.getPageSize());
+        return this.page(page, new LambdaQueryWrapper<PmsProduct>()
+                .eq(PmsProduct::getShopId, request.getShopId())
+                .eq(PmsProduct::getDeleteStatus,false)
+                .eq(Optional.ofNullable(request.getPublishStatus()).isPresent(),PmsProduct::getPublishStatus,request.getPublishStatus())
+                .eq(Optional.ofNullable(request.getProductCategoryId()).isPresent(),PmsProduct::getProductCategoryId,request.getProductCategoryId()));
+    }
+
+    /**
+     * 查询商品详细信息
+     * @param id
+     */
+    @Override
+    public PmsProduct getProduct(Long id) {
+        PmsProduct pmsProduct = this.getById(id);
+        if (EmptyUtil.isEmpty(pmsProduct) || pmsProduct.getDeleteStatus()){
+            Asserts.fail("商品id不存在");
+        }
+        List<PmsProductAttributeValue> productAttributeValueList = pmsProductAttributeValueService.getProductAttributeValueList(pmsProduct.getProductId());
+        List<PmsProductSku> productSkuList = pmsProductSkuService.list(new LambdaQueryWrapper<PmsProductSku>().eq(PmsProductSku::getProductId, pmsProduct.getProductId()));
+        pmsProduct.setProductAttributeValueList(productAttributeValueList);
+        pmsProduct.setProductSkuList(productSkuList);
+        return pmsProduct;
+    }
 
     /**
      * 录入商品信息
@@ -79,13 +114,9 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             productSkuRequestList.forEach(productSkuRequest -> {
                 PmsProductSku productSku = new PmsProductSku();
                 BeanUtils.copyProperties(productSkuRequest,productSku);
-                //Attribute转为{"key":"value"}
-                JSONObject skuDataJson = new JSONObject();
-                productSkuRequest.getSkuAttributeValueList().forEach(skuAttributeValue -> skuDataJson.set(skuAttributeValue.getAttributeName(),skuAttributeValue.getAttributeValue()));
-
                 productSku.setProductId(productId);
                 productSku.setSkuId(productSkuSnowflakeIdWorker.nextId());
-                productSku.setSkuData(JSONUtil.toJsonStr(skuDataJson));
+                productSku.setSkuData(JSONUtil.toJsonStr(productSkuRequest.getSkuAttributeValueList()));
                 //总库存等于Sku列表中的总库存
                 stock.updateAndGet(v -> v + productSku.getSkuStock());
 
@@ -104,6 +135,46 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             pmsProduct.setStock(stock.get());
         }
         return this.save(pmsProduct);
+    }
+
+    /**
+     * 修改商品状态
+     * @param request
+     * @return
+     */
+    @Override
+    public Boolean updateProductStatus(UpdateProductStatusRequest request) {
+        return this.update(new LambdaUpdateWrapper<PmsProduct>()
+                .set(Optional.ofNullable(request.getPublishStatus()).isPresent(),PmsProduct::getPublishStatus,request.getPublishStatus())
+                .set(Optional.ofNullable(request.getNewStatus()).isPresent(),PmsProduct::getNewStatus,request.getNewStatus())
+                .eq(PmsProduct::getId,request.getId()));
+    }
+
+    /**
+     * 修改商品Sku信息
+     * @param request
+     * @return
+     */
+    @Override
+    public Boolean updateProductSku(List<UpdateProductSkuRequest> request) {
+        boolean allStatus = true;
+        for (UpdateProductSkuRequest productSku:request) {
+            PmsProductSku pmsProductSku = new PmsProductSku();
+            BeanUtils.copyProperties(pmsProductSku,productSku);
+            boolean status = pmsProductSkuService.updateById(pmsProductSku);
+            allStatus = allStatus && status;
+        }
+        return allStatus;
+    }
+
+    /**
+     * 删除商品信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Boolean delete(Long id) {
+        return update(new LambdaQueryWrapper<PmsProduct>().eq(PmsProduct::getDeleteStatus,true));
     }
 
 }

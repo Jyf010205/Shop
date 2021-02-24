@@ -30,7 +30,7 @@ import java.util.Optional;
 @Api(tags = "运费模板Api")
 public class PmsFreightTemplateController {
     @Autowired
-    IPmsFreightTemplateService pmsFreightTemplateService;
+    private IPmsFreightTemplateService pmsFreightTemplateService;
 
     @GetMapping
     @ApiOperation("查询运费模板列表")

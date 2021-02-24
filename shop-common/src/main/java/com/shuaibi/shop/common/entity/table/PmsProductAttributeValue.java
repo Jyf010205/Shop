@@ -45,5 +45,7 @@ public class PmsProductAttributeValue implements Serializable {
     @TableField("ATTRIBUTE_VALUE")
     private String attributeValue;
 
-
+    @ApiModelProperty(value = "产品属性名称")
+    @TableField(exist = false)
+    private String attributeName;
 }

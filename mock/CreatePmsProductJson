@@ -1,0 +1,65 @@
+{
+  "createProductAttributeValueRequestList": [
+    {
+      "attributeId": 1,
+      "attributeValue": "8G"
+    },
+    {
+      "attributeId": 5,
+      "attributeValue": "黑色"
+    },
+    {
+      "attributeId": 6,
+      "attributeValue": "64G,128G,256G"
+    }
+  ],
+  "createProductSkuRequestList": [
+    {
+      "skuAttributeValueList": [
+        {
+          "attributeName": "颜色",
+          "attributeValue": "黑色"
+        },
+        {
+          "attributeName": "容量",
+          "attributeValue": "64G"
+        }
+      ],
+      "skuLowStock": 50,
+      "skuPics": "https://img14.360buyimg.com/n0/jfs/t1/160995/19/6211/394327/6020958dE60169464/1e16996fa36e62cd.png",
+      "skuPrice": 4299.00,
+      "skuStock": 500
+    },
+    {
+      "skuAttributeValueList": [
+        {
+          "attributeName": "颜色",
+          "attributeValue": "黑色"
+        },
+        {
+          "attributeName": "容量",
+          "attributeValue": "128G"
+        }
+      ],
+      "skuLowStock": 50,
+      "skuPics": "https://img14.360buyimg.com/n0/jfs/t1/160995/19/6211/394327/6020958dE60169464/1e16996fa36e62cd.png",
+      "skuPrice": 4299.00,
+      "skuStock": 500
+    }
+  ],
+  "freightTemplateId": 808660954220081152,
+  "lowStock": 100,
+  "newStatus": true,
+  "price": 4299.00,
+  "productCategoryId": 5,
+  "productCategoryName": "手机",
+  "productDescription": "5G游戏手机【10重豪礼+现货当天发】 全网通 8G+128G 蓝色 官方标配【原装55W充电套装+晒单红包】",
+  "productDetailHtml": "https://pro.m.jd.com/mall/active/4JdMPEoVy4VKx8CKCVgGLnAhJo9Q/index.html",
+  "productName": "小米（MI）小米11",
+  "productPics": "https://img14.360buyimg.com/n0/jfs/t1/160499/4/6353/454123/6020958fEe4d950a2/ad04b9ead0b851cb.png,https://img14.360buyimg.com/n0/jfs/t1/158190/19/211/32616/5fe9df74Ec8b312ca/22c379dde6339d68.jpg",
+  "publishStatus": true,
+  "queryIndex": "小米",
+  "shopId": 808660577454010368,
+  "shopName": "小米体验店",
+  "stock": 1000
+}

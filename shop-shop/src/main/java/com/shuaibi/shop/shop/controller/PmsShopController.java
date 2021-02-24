@@ -31,7 +31,7 @@ import java.util.Optional;
 @Api(tags = "店铺Api")
 public class PmsShopController {
     @Autowired
-    IPmsShopService pmsShopService;
+    private IPmsShopService pmsShopService;
 
     @GetMapping
     @ApiOperation("获取店铺列表")
