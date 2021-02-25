@@ -1,12 +1,9 @@
 package com.shuaibi.shop.application.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shuaibi.shop.application.entity.request.GetProductAttribute;
-import com.shuaibi.shop.application.entity.request.GetProductRequest;
 import com.shuaibi.shop.application.service.IPmsProductAttributeService;
 import com.shuaibi.shop.common.entity.result.CommonResult;
-import com.shuaibi.shop.common.entity.table.PmsProduct;
 import com.shuaibi.shop.common.entity.table.PmsProductAttribute;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

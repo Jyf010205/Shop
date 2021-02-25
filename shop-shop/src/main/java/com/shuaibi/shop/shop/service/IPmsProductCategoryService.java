@@ -1,8 +1,8 @@
-package com.shuaibi.shop.application.service;
+package com.shuaibi.shop.shop.service;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.shuaibi.shop.common.entity.table.PmsProductCategory;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 

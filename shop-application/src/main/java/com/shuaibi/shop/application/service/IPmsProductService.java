@@ -1,9 +1,9 @@
 package com.shuaibi.shop.application.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.shuaibi.shop.application.entity.request.GetProductRequest;
-import com.shuaibi.shop.common.entity.table.PmsProduct;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shuaibi.shop.application.entity.request.GetProductListRequest;
+import com.shuaibi.shop.common.entity.table.PmsProduct;
 
 /**
  * <p>
@@ -14,9 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-02-04
  */
 public interface IPmsProductService extends IService<PmsProduct> {
-
-
-    IPage<PmsProduct> srarch(GetProductRequest pmsProduct);
-
-
+    IPage<PmsProduct> getProductList(GetProductListRequest request);
 }

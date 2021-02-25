@@ -1,7 +1,5 @@
 package com.shuaibi.shop.application.entity.request;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shuaibi.shop.common.entity.QueryRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,8 +21,20 @@ import lombok.Data;
  * Copyright © 2021 Hundsun Technologies Inc. All Rights Reserved
  **/
 @Data
-public class GetProductRequest extends QueryRequest {
-    @ApiModelProperty(value = "商品编号")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long productId;
+public class GetProductListRequest extends QueryRequest {
+    @ApiModelProperty(value = "查询索引关键字")
+    private String queryIndex;
+
+    @ApiModelProperty(value = "商品类目")
+    private Long productCategoryId;
+
+    @ApiModelProperty(value = "店铺ID")
+    private Long shopId;
+
+    @ApiModelProperty(value = "销量")
+    private Boolean sales;
+
+    @ApiModelProperty(value = "售价")
+    private Boolean price;
+
 }

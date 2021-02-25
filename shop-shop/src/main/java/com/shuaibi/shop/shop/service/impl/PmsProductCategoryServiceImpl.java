@@ -1,12 +1,12 @@
-package com.shuaibi.shop.application.service.impl;
+package com.shuaibi.shop.shop.service.impl;
 
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shuaibi.shop.application.service.IPmsProductCategoryService;
 import com.shuaibi.shop.common.entity.table.PmsProductCategory;
 import com.shuaibi.shop.common.mapper.PmsProductCategoryMapper;
+import com.shuaibi.shop.shop.service.IPmsProductCategoryService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
