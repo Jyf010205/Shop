@@ -31,10 +31,10 @@ public class GetProductListRequest extends QueryRequest {
     @ApiModelProperty(value = "店铺ID")
     private Long shopId;
 
-    @ApiModelProperty(value = "销量")
+    @ApiModelProperty(value = "销量,true->asc,false->desc")
     private Boolean sales;
 
-    @ApiModelProperty(value = "售价")
+    @ApiModelProperty(value = "售价,true->asc,false->desc")
     private Boolean price;
 
 }

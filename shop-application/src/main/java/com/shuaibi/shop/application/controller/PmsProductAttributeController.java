@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2021-02-08
  */
 @RestController
-@RequestMapping("/pms-product-attribute")
+@RequestMapping("/attribute")
 @Api(tags = "商品类目")
 public class PmsProductAttributeController {
 

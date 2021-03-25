@@ -15,4 +15,6 @@ import com.shuaibi.shop.common.entity.table.PmsProduct;
  */
 public interface IPmsProductService extends IService<PmsProduct> {
     IPage<PmsProduct> getProductList(GetProductListRequest request);
+
+    PmsProduct getProduct(Long id);
 }

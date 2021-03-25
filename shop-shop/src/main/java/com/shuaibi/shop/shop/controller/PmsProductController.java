@@ -35,7 +35,7 @@ public class PmsProductController {
 
     @GetMapping
     @ApiOperation("查询商品列表")
-    public CommonResult getProductList(GetProductListRequest request){
+    public CommonResult getProductList(@Valid GetProductListRequest request){
         return CommonResult.success(PmsProductService.getProductList(request));
     }
 

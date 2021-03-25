@@ -38,6 +38,14 @@ public class ReceiveAddressController {
         return CommonResult.success(receiveAddressService.list(new LambdaQueryWrapper<ReceiveAddress>().eq(ReceiveAddress::getUserId,userId)));
     }
 
+    @GetMapping("/default")
+    @ApiOperation("获取默认收货地址")
+    public CommonResult<ReceiveAddress> getDefaultReceiveAddress(@ApiIgnore @UserId String userId){
+        return CommonResult.success(receiveAddressService.getOne(new LambdaQueryWrapper<ReceiveAddress>()
+                .eq(ReceiveAddress::getUserId,userId)
+                .eq(ReceiveAddress::getDefaultStatus,true)));
+    }
+
     @PostMapping
     @ApiOperation("新增收货地址")
     public CommonResult<ReceiveAddress> insert(@Valid @RequestBody ReceiveAddress address, @ApiIgnore @UserId String userId){
