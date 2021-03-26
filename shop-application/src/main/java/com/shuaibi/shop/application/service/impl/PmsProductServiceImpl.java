@@ -5,14 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shuaibi.shop.application.entity.request.GetProductListRequest;
-import com.shuaibi.shop.application.service.IPmsProductAttributeValueService;
-import com.shuaibi.shop.application.service.IPmsProductCategoryService;
-import com.shuaibi.shop.application.service.IPmsProductService;
-import com.shuaibi.shop.application.service.IPmsProductSkuService;
-import com.shuaibi.shop.common.entity.table.PmsProduct;
-import com.shuaibi.shop.common.entity.table.PmsProductAttributeValue;
-import com.shuaibi.shop.common.entity.table.PmsProductCategory;
-import com.shuaibi.shop.common.entity.table.PmsProductSku;
+import com.shuaibi.shop.application.service.*;
+import com.shuaibi.shop.common.entity.table.*;
 import com.shuaibi.shop.common.mapper.PmsProductMapper;
 import com.shuaibi.shop.common.utils.Asserts;
 import com.shuaibi.shop.common.utils.EmptyUtil;
@@ -36,9 +30,11 @@ import java.util.stream.Collectors;
 @Service
 public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProduct> implements IPmsProductService {
     @Autowired
+    private IPmsProductSkuService pmsProductSkuService;
+    @Autowired
     private IPmsProductCategoryService pmsProductCategoryService;
     @Autowired
-    private IPmsProductSkuService pmsProductSkuService;
+    private IPmsFreightTemplateService pmsFreightTemplateService;
     @Autowired
     private IPmsProductAttributeValueService pmsProductAttributeValueService;
     /**
@@ -79,12 +75,14 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     public PmsProduct getProduct(Long id) {
         PmsProduct pmsProduct = this.getById(id);
         if (EmptyUtil.isEmpty(pmsProduct) || pmsProduct.getDeleteStatus()){
-            Asserts.fail("商品id不存在");
+            Asserts.fail("商品不存在");
         }
         List<PmsProductAttributeValue> productAttributeValueList = pmsProductAttributeValueService.getProductAttributeValueList(pmsProduct.getProductId());
         List<PmsProductSku> productSkuList = pmsProductSkuService.list(new LambdaQueryWrapper<PmsProductSku>().eq(PmsProductSku::getProductId, pmsProduct.getProductId()));
+        PmsFreightTemplate freightTemplate = pmsFreightTemplateService.getFreightTemplate(pmsProduct.getFreightTemplateId());
         pmsProduct.setProductAttributeValueList(productAttributeValueList);
         pmsProduct.setProductSkuList(productSkuList);
+        pmsProduct.setPmsFreightTemplate(freightTemplate);
         return pmsProduct;
     }
 }

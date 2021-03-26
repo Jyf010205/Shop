@@ -7,8 +7,6 @@ import com.shuaibi.shop.shop.entity.request.CreateFreightTemplateRequest;
 import com.shuaibi.shop.shop.entity.request.GetFreightTemplateRequest;
 import com.shuaibi.shop.shop.entity.request.UpdateFreightTemplateRequest;
 
-import java.util.Optional;
-
 /**
  * <p>
  * 运费模版表 服务类
@@ -21,7 +19,7 @@ public interface IPmsFreightTemplateService extends IService<PmsFreightTemplate>
 
     IPage<PmsFreightTemplate> getFreightTemplateList(GetFreightTemplateRequest request);
 
-    Optional<PmsFreightTemplate> getFreightTemplate(Long id);
+    PmsFreightTemplate getFreightTemplate(Long freightTemplateId);
 
     Boolean createTemplate(CreateFreightTemplateRequest request);
 

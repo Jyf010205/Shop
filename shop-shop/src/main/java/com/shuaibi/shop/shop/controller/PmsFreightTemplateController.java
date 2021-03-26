@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shuaibi.shop.common.entity.result.CommonResult;
 import com.shuaibi.shop.common.entity.table.PmsFreightTemplate;
 import com.shuaibi.shop.common.utils.Asserts;
+import com.shuaibi.shop.common.utils.EmptyUtil;
 import com.shuaibi.shop.shop.entity.request.CreateFreightTemplateRequest;
 import com.shuaibi.shop.shop.entity.request.GetFreightTemplateRequest;
 import com.shuaibi.shop.shop.entity.request.UpdateFreightTemplateRequest;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 /**
  * <p>
@@ -34,18 +34,18 @@ public class PmsFreightTemplateController {
 
     @GetMapping
     @ApiOperation("查询运费模板列表")
-    public CommonResult<IPage<PmsFreightTemplate>> getFreightTemplateList(GetFreightTemplateRequest request){
+    public CommonResult<IPage<PmsFreightTemplate>> getFreightTemplateList(@Valid GetFreightTemplateRequest request){
         return CommonResult.success(pmsFreightTemplateService.getFreightTemplateList(request));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{freightTemplateId}")
     @ApiOperation("查询运费模板")
-    public CommonResult<PmsFreightTemplate> getFreightTemplate(@PathVariable Long id){
-        Optional<PmsFreightTemplate> pmsFreightTemplate = pmsFreightTemplateService.getFreightTemplate(id);
-        if (!pmsFreightTemplate.isPresent()) {
+    public CommonResult<PmsFreightTemplate> getFreightTemplate(@PathVariable Long freightTemplateId){
+        PmsFreightTemplate pmsFreightTemplate = pmsFreightTemplateService.getFreightTemplate(freightTemplateId);
+        if (EmptyUtil.isEmpty(pmsFreightTemplate)) {
             Asserts.fail("查询失败");
         }
-        return CommonResult.success(pmsFreightTemplate.get(),"查询成功");
+        return CommonResult.success(pmsFreightTemplate,"查询成功");
     }
 
     @PostMapping

@@ -105,6 +105,7 @@ public class PmsProduct implements Serializable {
 
     @ApiModelProperty(value = "运费模板ID")
     @TableField("FREIGHT_TEMPLATE_ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long freightTemplateId;
 
     @ApiModelProperty(value = "查询索引关键字")
@@ -118,4 +119,8 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "Sku商品列表")
     @TableField(exist = false)
     private List<PmsProductSku> productSkuList;
+
+    @ApiModelProperty(value = "运费模版")
+    @TableField(exist = false)
+    private PmsFreightTemplate pmsFreightTemplate;
 }

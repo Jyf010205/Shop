@@ -71,18 +71,18 @@ public class PmsFreightTemplateServiceImpl extends ServiceImpl<PmsFreightTemplat
 
     /**
      * 查询店铺运费模板
-     * @param id
+     * @param freightTemplateId
      * @return
      */
     @Override
-    public Optional<PmsFreightTemplate> getFreightTemplate(Long id) {
-        PmsFreightTemplate pmsFreightTemplate = this.getById(id);
+    public PmsFreightTemplate getFreightTemplate(Long freightTemplateId) {
+        PmsFreightTemplate pmsFreightTemplate = this.getOne(new LambdaQueryWrapper<PmsFreightTemplate>().eq(PmsFreightTemplate::getFreightTemplateId,freightTemplateId));
         if (pmsFreightTemplate == null) {
             Asserts.fail("查询失败");
         }
         pmsFreightTemplate.setFreightTemplateFreeList(pmsFreightTemplateFreeService.list(new LambdaQueryWrapper<PmsFreightTemplateFree>().eq(PmsFreightTemplateFree::getFreightTemplateId,pmsFreightTemplate.getFreightTemplateId())));
         pmsFreightTemplate.setFreightTemplateChargeList(pmsFreightTemplateChargeService.list(new LambdaQueryWrapper<PmsFreightTemplateCharge>().eq(PmsFreightTemplateCharge::getFreightTemplateId,pmsFreightTemplate.getFreightTemplateId())));
-        return Optional.of(pmsFreightTemplate);
+        return pmsFreightTemplate;
     }
 
     /**
@@ -172,7 +172,7 @@ public class PmsFreightTemplateServiceImpl extends ServiceImpl<PmsFreightTemplat
     public Boolean deleteTemplate(Long id) {
         PmsFreightTemplate pmsFreightTemplate = this.getById(id);
         if (!Optional.ofNullable(pmsFreightTemplate).isPresent()){
-            Asserts.fail("运费模板id不存在");
+            Asserts.fail("运费模板不存在");
         }
         //删除关联表
         pmsFreightTemplateFreeService.remove(new LambdaQueryWrapper<PmsFreightTemplateFree>().eq(PmsFreightTemplateFree::getFreightTemplateId, pmsFreightTemplate.getFreightTemplateId()));

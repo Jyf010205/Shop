@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shuaibi.shop.common.entity.table.PmsFreightTemplate;
 import com.shuaibi.shop.common.entity.table.PmsProduct;
 import com.shuaibi.shop.common.entity.table.PmsProductAttributeValue;
 import com.shuaibi.shop.common.entity.table.PmsProductSku;
@@ -14,6 +15,7 @@ import com.shuaibi.shop.common.utils.Asserts;
 import com.shuaibi.shop.common.utils.EmptyUtil;
 import com.shuaibi.shop.common.utils.SnowflakeIdWorker;
 import com.shuaibi.shop.shop.entity.request.*;
+import com.shuaibi.shop.shop.service.IPmsFreightTemplateService;
 import com.shuaibi.shop.shop.service.IPmsProductAttributeValueService;
 import com.shuaibi.shop.shop.service.IPmsProductService;
 import com.shuaibi.shop.shop.service.IPmsProductSkuService;
@@ -50,6 +52,8 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     @Autowired
     private IPmsProductSkuService pmsProductSkuService;
     @Autowired
+    private IPmsFreightTemplateService pmsFreightTemplateService;
+    @Autowired
     private IPmsProductAttributeValueService pmsProductAttributeValueService;
 
     /**
@@ -75,12 +79,14 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     public PmsProduct getProduct(Long id) {
         PmsProduct pmsProduct = this.getById(id);
         if (EmptyUtil.isEmpty(pmsProduct) || pmsProduct.getDeleteStatus()){
-            Asserts.fail("商品id不存在");
+            Asserts.fail("商品不存在");
         }
         List<PmsProductAttributeValue> productAttributeValueList = pmsProductAttributeValueService.getProductAttributeValueList(pmsProduct.getProductId());
         List<PmsProductSku> productSkuList = pmsProductSkuService.list(new LambdaQueryWrapper<PmsProductSku>().eq(PmsProductSku::getProductId, pmsProduct.getProductId()));
+        PmsFreightTemplate freightTemplate = pmsFreightTemplateService.getFreightTemplate(pmsProduct.getFreightTemplateId());
         pmsProduct.setProductAttributeValueList(productAttributeValueList);
         pmsProduct.setProductSkuList(productSkuList);
+        pmsProduct.setPmsFreightTemplate(freightTemplate);
         return pmsProduct;
     }
 
